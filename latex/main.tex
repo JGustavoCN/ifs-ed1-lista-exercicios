@@ -717,4 +717,77 @@ Um Sistema Operacional utiliza o algoritmo \textbf{Round Robin} para distribuir 
 
 \textbf{Pergunta Reflexiva:} Durante o escalonamento Round Robin, o "ponteiro atual" está sempre em movimento. Ao remover um processo que acabou de terminar, você deve garantir que a circularidade da lista permaneça intacta. Descreva como sua implementação trata a remoção de um nó em uma lista circular: como você encontra o nó anterior para religar a lista e o que acontece se o nó removido for o \texttt{tail}?
 
+% ==========================================
+%     TEMA 8: LISTA CIRCULAR DUPLAMENTE ENCADEADA
+% ==========================================
+\newpage
+
+\noindent\rule{\textwidth}{0.8pt}
+\begin{center}
+    \large\textbf{TEMA 8 — LISTA CIRCULAR DUPLA: O ÁPICE DOS PONTEIROS}
+\end{center}
+\noindent\rule{\textwidth}{0.8pt}
+\vspace{0.4cm}
+
+\section*{Questão 22: Carrossel de Imagens de um Site (Conceito)}
+Websites de e-commerce e portfólios utilizam carrosséis de imagens onde o usuário pode clicar em "Próximo" ou "Anterior" indefinidamente. Em uma \textbf{Lista Circular Duplamente Encadeada}, o primeiro nó (\texttt{head}) está conectado ao último (\texttt{tail}) em ambos os sentidos: \texttt{head.anterior} aponta para o \texttt{tail} e \texttt{tail.proximo} aponta para o \texttt{head}. Isso permite uma rotação infinita para qualquer direção sem encontrar o valor \texttt{null}.
+
+\textbf{Requisitos:}
+\begin{itemize}
+    \item Crie uma classe \texttt{NoDuplo} que armazene o nome da imagem (\texttt{String}), e os ponteiros \texttt{anterior} e \texttt{proximo}.
+    \item Implemente a classe \texttt{CarrosselCircular} com apenas o ponteiro \texttt{head}.
+    \item Implemente o método \texttt{adicionarImagem(String nome)}:
+    \begin{itemize}
+        \item Se for a primeira imagem, ela deve apontar para si mesma nos dois sentidos.
+        \item Se houver outras, insira no final, garantindo que as ligações entre o novo nó, o antigo último e a cabeça sejam atualizadas.
+    \end{itemize}
+    \item Implemente \texttt{exibirHorario()} e \texttt{exibirAntiHorario()} para demonstrar a circularidade bidirecional.
+    \item Na classe \texttt{Main}, adicione 3 imagens (``Foto1'', ``Foto2'', ``Foto3'') e exiba-as nos dois sentidos.
+\end{itemize}
+
+\textbf{Pergunta Reflexiva:} Quando uma lista circular dupla possui apenas um único elemento, para onde apontam seus ponteiros \texttt{proximo} e \texttt{anterior}? Como essa configuração "reflexiva" evita que o sistema tente acessar uma referência nula?
+
+\vspace{0.5cm}
+
+\section*{Questão 23: Player de Música Premium com Loop Infinito (Prática)}
+Diferente de um player básico, a versão Premium permite que, ao clicar em "Anterior" estando na primeira música, o player salte imediatamente para a última música da playlist, mantendo o fluxo sonoro sem interrupções.
+
+\textbf{Requisitos:}
+\begin{itemize}
+    \item Crie uma classe \texttt{Musica} com \texttt{titulo} e \texttt{artista}.
+    \item Implemente a classe \texttt{PlayerPremium} (Lista Circular Dupla) com um ponteiro \texttt{musicaAtual}.
+    \item Implemente os métodos:
+    \begin{itemize}
+        \item \texttt{void proxima()} — move o ponteiro para o próximo nó.
+        \item \texttt{void anterior()} — move o ponteiro para o nó anterior.
+        \item \texttt{void adicionar(Musica m)} — adiciona no final da playlist.
+    \end{itemize}
+    \item Na classe \texttt{Main}, adicione 3 músicas. Execute a sequência: 1x Próxima, 2x Anterior. Exiba a música tocando em cada passo, destacando o momento em que a lista "dá a volta" do início para o fim.
+\end{itemize}
+
+\textbf{Pergunta Reflexiva:} Na implementação da operação \texttt{anterior()} em uma lista circular dupla, o custo computacional é $O(1)$. Como seria a complexidade dessa mesma operação se estivéssemos usando uma \textbf{Lista Circular Simples} (onde não há o ponteiro \texttt{anterior})? Por que a bidirecionalidade é essencial para sistemas de navegação fluida?
+
+\vspace{0.5cm}
+
+\section*{Questão 24: Seletor de Heróis em Jogo de Luta (Desafio)}
+Em jogos de luta, o seletor de personagens permite navegar entre heróis para a esquerda e direita. Ao escolher um herói (por exemplo, em um modo onde personagens não podem ser repetidos), ele deve ser \textbf{removido} da lista de seleção. A remoção em uma lista circular dupla é a operação mais complexa, pois exige religar as pontas caso o herói removido seja o único, o primeiro ou o último da sequência.
+
+\textbf{Requisitos:}
+\begin{itemize}
+    \item Crie uma classe \texttt{Heroi} com \texttt{nome} e \texttt{classe} (ex: Guerreiro, Mago).
+    \item Implemente a classe \texttt{SeletorHerois} (Lista Circular Dupla) com os métodos:
+    \begin{itemize}
+        \item \texttt{void adicionar(Heroi h)} — insere no final.
+        \item \texttt{void remover(String nome)} — localiza o herói e o remove. Trate com rigor:
+        \begin{enumerate}
+            \item Remoção do único herói da lista (a lista deve ficar \texttt{null}).
+            \item Remoção de um herói no meio, início ou fim, mantendo sempre a conexão circular dupla entre os vizinhos.
+        \end{enumerate}
+        \item \texttt{void exibirOpcoes()} — exibe todos os heróis disponíveis.
+    \end{itemize}
+    \item Na classe \texttt{Main}, adicione 4 heróis. Simule a remoção do herói da cabeça, de um herói no meio e, por fim, remova todos até que a lista fique vazia. Exiba o estado da lista após cada remoção.
+\end{itemize}
+
+\textbf{Pergunta Reflexiva:} A remoção do \textbf{último elemento restante} em uma lista circular dupla exige um cuidado especial: ao final da operação, o ponteiro \texttt{head} deve ser explicitamente definido como \texttt{null}. O que aconteceria se você tentasse aplicar a lógica padrão de remoção (\texttt{anterior.proximo = proximo}) em uma lista com apenas um nó? Descreva o risco de manter referências obsoletas ("dangling pointers") nesse cenário.
+
 \end{document}
