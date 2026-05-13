@@ -566,4 +566,84 @@ Uma delegacia de polícia registra boletins de ocorrência (B.O.) em um sistema 
 
 \textbf{Pergunta Reflexiva:} Para remover um nó no \textbf{meio} de uma Lista Simplesmente Encadeada, foi necessário primeiro \textbf{encontrá-lo} (percorrendo a lista) e depois atualizar o ponteiro \texttt{proximo} do nó anterior. Essa operação de busca custa $O(n)$ no pior caso. Compare isso com um \texttt{ArrayList}, onde o acesso por índice é $O(1)$ (acesso direto). Por que uma lista encadeada \textbf{não} permite acesso direto por índice? Relacione sua explicação com a diferença entre alocação \textbf{contígua} de memória (os elementos ficam lado a lado, permitindo cálculo de endereço por aritmética) e alocação \textbf{não-contígua} (cada nó pode estar em qualquer lugar da memória, conectado apenas por referências). Em que situações essa ``desvantagem'' da lista encadeada é compensada por suas vantagens?
 
+% ==========================================
+%     TEMA 6: LISTA DUPLAMENTE ENCADEADA (DOUBLY LINKED LIST)
+% ==========================================
+\newpage
+
+\noindent\rule{\textwidth}{0.8pt}
+\begin{center}
+    \large\textbf{TEMA 6 — LISTA DUPLAMENTE ENCADEADA: NAVEGAÇÃO BIDIRECIONAL E SENTINELAS}
+\end{center}
+\noindent\rule{\textwidth}{0.8pt}
+\vspace{0.4cm}
+
+\section*{Questão 16: Histórico de Navegação de Internet (Conceito)}
+Os navegadores modernos utilizam uma estrutura de \textbf{Lista Duplamente Encadeada} para gerenciar o histórico de abas. Isso permite que o usuário navegue para frente e para trás de forma eficiente. Diferente da lista simples, cada nó aqui possui uma referência para o nó anterior (\texttt{prev}) e para o próximo (\texttt{next}). Para simplificar a lógica de borda (lista vazia ou com um elemento), utilizaremos a estratégia de \textbf{Nós Sentinelas} (\texttt{header} e \texttt{trailer}).
+
+\textbf{Requisitos:}
+\begin{itemize}
+    \item Crie uma classe \texttt{NoDuplo} com:
+    \begin{itemize}
+        \item \texttt{String url} — o endereço do site visitado.
+        \item \texttt{NoDuplo anterior} e \texttt{NoDuplo proximo}.
+        \item Construtor que receba a URL e as referências para os nós vizinhos.
+    \end{itemize}
+    \item Crie uma classe \texttt{HistoricoBrowser} que utilize sentinelas:
+    \begin{itemize}
+        \item Atributos privados \texttt{header} e \texttt{trailer} (nós que não guardam dados).
+        \item No construtor, ligue \texttt{header.proximo = trailer} e \texttt{trailer.anterior = header}.
+    \end{itemize}
+    \item Implemente os métodos:
+    \begin{itemize}
+        \item \texttt{void visitar(String url)} — insere um novo site no \textbf{final} da lista (antes do \texttt{trailer}).
+        \item \texttt{void exibirOrdemDireta()} — percorre do \texttt{header} para o \texttt{trailer}.
+        \item \texttt{void exibirOrdemReversa()} — percorre do \texttt{trailer} para o \texttt{header}, demonstrando a navegação bidirecional.
+    \end{itemize}
+    \item Na classe \texttt{Main}, simule a visita aos sites: ``google.com'', ``github.com'' e ``stackoverflow.com''. Exiba o histórico nas duas ordens.
+\end{itemize}
+
+\textbf{Pergunta Reflexiva:} Em uma Lista Duplamente Encadeada, cada nó armazena uma referência adicional (\texttt{prev}), o que aumenta o consumo de memória RAM em comparação com uma Lista Simples. Explique qual é a vantagem algorítmica fundamental desse "custo extra" ao realizar a operação de \textbf{remoção do último elemento} da lista. Por que na lista simples essa operação é $O(n)$ e na dupla ela pode ser $O(1)$?
+
+\vspace{0.5cm}
+
+\section*{Questão 17: Sistema Undo/Redo de Editor de Texto (Prática)}
+Um editor de texto armazena as ações do usuário (digitar, apagar, formatar) em uma Lista Duplamente Encadeada. Um ponteiro chamado \texttt{cursorAtual} indica em qual estado o editor se encontra. Ao clicar em "Desfazer" (Undo), o cursor move-se para o nó anterior. Ao clicar em "Refazer" (Redo), move-se para o próximo. Se o usuário realizar uma \textbf{nova ação} estando no meio do histórico, todos os estados à frente do cursor devem ser descartados.
+
+\textbf{Requisitos:}
+\begin{itemize}
+    \item Crie uma classe \texttt{EditorUndoRedo} que gerencie a lista de strings (ações).
+    \item Mantenha uma referência \texttt{NoDuplo cursorAtual}.
+    \item Implemente o método \texttt{novaAcao(String acao)}:
+    \begin{itemize}
+        \item Adicione a ação após o \texttt{cursorAtual}.
+        \item \textbf{Importante:} Se houver nós após o cursor, eles devem ser desconectados da lista (perdendo a referência para o Redo).
+        \item Atualize o \texttt{cursorAtual} para este novo nó.
+    \end{itemize}
+    \item Implemente \texttt{undo()} e \texttt{redo()}, movendo o cursor e exibindo a ação atual. Trate os limites (início e fim da lista) para evitar \texttt{NullPointerException}.
+    \item Na classe \texttt{Main}, simule: Digitar "Olá", Digitar "Mundo", Undo, Digitar "Pessoal", tentar Redo (deve estar desabilitado/vazio).
+\end{itemize}
+
+\textbf{Pergunta Reflexiva:} O descarte dos nós à frente do cursor ao realizar uma nova ação após um Undo é essencial para manter a consistência lógica. O que acontece com esses nós descartados na memória do computador, considerando que o Java possui um \textit{Garbage Collector}? Como a ausência de referências (ponteiros) para esses nós influencia esse processo?
+
+\vspace{0.5cm}
+
+\section*{Questão 18: Playlist com Reordenação Inteligente (Desafio)}
+Uma plataforma de música permite que o usuário reordene sua playlist. O desafio técnico consiste em inserir uma música no \textbf{meio} da lista, entre dois nós já existentes (A e B). Isso exige a manipulação coordenada de \textbf{quatro ponteiros}: os dois do novo nó, o \texttt{proximo} do nó A e o \texttt{anterior} do nó B.
+
+\textbf{Requisitos:}
+\begin{itemize}
+    \item Implemente uma classe \texttt{PlaylistDupla} com sentinelas.
+    \item Implemente o método \texttt{inserirEntre(String musicaNova, String musicaA, String musicaB)}:
+    \begin{itemize}
+        \item Localize os nós que contêm \texttt{musicaA} e \texttt{musicaB}.
+        \item Valide se B é realmente o sucessor de A.
+        \item Crie o novo nó e realize a "amarração quádrupla" de ponteiros para inseri-lo no meio.
+    \end{itemize}
+    \item Implemente um método \texttt{removerMusica(String nome)} que ajuste os ponteiros dos vizinhos para "fechar o buraco" na lista.
+    \item Na classe \texttt{Main}, crie a playlist: [M1, M3]. Insira M2 entre M1 e M3. Remova M1 e verifique se M2 se tornou a nova primeira música (sucessor do \texttt{header}).
+\end{itemize}
+
+\textbf{Pergunta Reflexiva:} Ao inserir um nó entre dois nós existentes em uma lista dupla, a ordem das operações de ponteiro é crítica para não "perder" a lista no meio do processo. Descreva, passo a passo, a sequência lógica de atribuições que você utilizou. Por que usar sentinelas (\texttt{header/trailer}) torna a implementação de métodos de inserção e remoção muito mais segura e menos propensa a erros de "ponteiro nulo"?
+
 \end{document}
