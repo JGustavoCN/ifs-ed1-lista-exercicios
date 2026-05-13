@@ -69,3 +69,4 @@ Você deve criar ou modificar diretamente os arquivos `.java` no projeto atravé
 - Mantenha a comunicação em Português do Brasil.
 - Todo código Java submetido deve compilar perfeitamente.
 - Não deve usar subagents para ler pdf e nem usar python, apenas use ferramentas nativas. Lembre-se sempre de realizar edições diretas nos arquivos e evitar responder apenas com blocos de código gigantes na nossa conversa.
+- Não use && nos comandos estamos no powershell windows, use ;

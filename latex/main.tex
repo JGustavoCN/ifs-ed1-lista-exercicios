@@ -330,4 +330,122 @@ O grande desafio é: como remover elementos de um \texttt{ArrayList} \textbf{dur
 
 \textbf{Pergunta Reflexiva:} Na Estratégia A, ao remover o elemento no índice \texttt{i}, todos os elementos subsequentes são deslocados uma posição para a esquerda pelo \texttt{ArrayList}. Porém, a variável \texttt{i} é incrementada normalmente pelo \texttt{for}. Explique, passo a passo com um exemplo de 4 elementos, por que isso faz com que o elemento que estava imediatamente após o removido seja ``pulado'' pela iteração. Em seguida, explique como a abordagem de percorrer a lista \textbf{do final para o início} (\texttt{for (int i = lista.size()-1; i >= 0; i--)}) resolveria o problema sem usar \texttt{Iterator}. Por que essa técnica funciona?
 
+% ==========================================
+%     TEMA 4: GENERICS (TYPE SAFETY)
+% ==========================================
+\newpage
+
+\noindent\rule{\textwidth}{0.8pt}
+\begin{center}
+    \large\textbf{TEMA 4 — GENERICS: SEGURANÇA DE TIPOS E ELIMINAÇÃO DE CASTINGS}
+\end{center}
+\noindent\rule{\textwidth}{0.8pt}
+\vspace{0.4cm}
+
+\section*{Questão 10: Laboratório de Análises Clínicas (Conceito)}
+Um laboratório de análises clínicas armazena amostras biológicas em tubos de ensaio. Cada tubo pode conter materiais de tipos diferentes: uma amostra de sangue é representada por uma \texttt{String} (o tipo sanguíneo, ex: ``O+''), uma contagem de leucócitos por um \texttt{Integer} e uma taxa de glicose por um \texttt{Double}. O sistema legado do laboratório utilizava um \textbf{array de \texttt{Object}} para guardar qualquer tipo de amostra, exigindo \textit{castings} explícitos e arriscando erros em tempo de execução (\texttt{ClassCastException}).
+
+Sua missão é demonstrar o \textbf{antes e depois}: primeiro, reproduzir os problemas do código sem Generics; depois, criar uma classe genérica \texttt{Tubo<T>} que resolva esses problemas com segurança de tipos em tempo de compilação.
+
+\textbf{Requisitos:}
+\begin{itemize}
+    \item \textbf{Parte A — Sem Generics (código problemático):}
+    \begin{itemize}
+        \item Crie um array \texttt{Object[] amostras} de tamanho 3.
+        \item Armazene uma \texttt{String} (tipo sanguíneo), um \texttt{Integer} (leucócitos) e um \texttt{Double} (glicose) no array.
+        \item Recupere o primeiro elemento e faça um \textit{casting} correto para \texttt{String}. Exiba o resultado.
+        \item Agora, \textbf{propositalmente}, tente fazer um \textit{casting} do segundo elemento (\texttt{Integer}) para \texttt{String}. Capture a exceção \texttt{ClassCastException} com \texttt{try-catch} e exiba uma mensagem de erro explicativa.
+    \end{itemize}
+    \item \textbf{Parte B — Com Generics (solução segura):}
+    \begin{itemize}
+        \item Crie uma classe genérica \texttt{Tubo<T>} com:
+        \begin{itemize}
+            \item Um atributo privado \texttt{T amostra}.
+            \item Um método \texttt{void inserir(T amostra)} para armazenar a amostra.
+            \item Um método \texttt{T retirar()} que retorna a amostra armazenada.
+        \end{itemize}
+        \item Na classe \texttt{Main}, crie três tubos tipados: \texttt{Tubo<String>}, \texttt{Tubo<Integer>} e \texttt{Tubo<Double>}.
+        \item Insira e retire amostras de cada tubo \textbf{sem} necessidade de \textit{casting}. Exiba os resultados.
+        \item Demonstre que tentar inserir um tipo incompatível (ex: inserir um \texttt{Integer} em um \texttt{Tubo<String>}) gera um \textbf{erro de compilação}, e não de execução. Comente essa linha no código e explique com um comentário.
+    \end{itemize}
+\end{itemize}
+
+\textbf{Pergunta Reflexiva:} Você observou que, com Generics, o compilador Java impede a inserção de tipos incompatíveis \textbf{antes mesmo} de o programa ser executado. Porém, nos bastidores, o Java aplica um mecanismo chamado \textbf{Type Erasure}: durante a compilação, todas as informações de tipo genérico são removidas, e \texttt{T} é substituído por \texttt{Object} no bytecode final. Sabendo disso, explique: se o bytecode compilado de \texttt{Tubo<String>} e \texttt{Tubo<Integer>} é \textbf{idêntico} (ambos usam \texttt{Object} internamente), \textit{como} o compilador consegue rejeitar o código incorreto antes da compilação? Qual é a vantagem prática dessa abordagem para o desenvolvedor?
+
+\vspace{0.5cm}
+
+\section*{Questão 11: Cofre Digital Parametrizado (Prática)}
+Uma empresa de segurança patrimonial oferece cofres digitais inteligentes para seus clientes. Cada cofre pode guardar \textbf{um único tipo} de item valioso: alguns clientes guardam documentos (representados como \texttt{String}), outros guardam quantias em dinheiro (\texttt{Double}) e outros guardam códigos de acesso (\texttt{Integer}). O sistema deve ser parametrizado com Generics para que cada cofre tenha segurança de tipos: um cofre de documentos não pode acidentalmente receber uma quantia monetária.
+
+\textbf{Requisitos:}
+\begin{itemize}
+    \item Crie uma classe genérica \texttt{Cofre<T>} que encapsule:
+    \begin{itemize}
+        \item Um \texttt{ArrayList<T>} privado chamado \texttt{itens} para armazenar os objetos guardados.
+        \item Um atributo \texttt{String dono} que identifica o proprietário do cofre.
+        \item Um atributo \texttt{int capacidadeMaxima} que define o limite de itens do cofre.
+    \end{itemize}
+    \item Implemente os seguintes métodos:
+    \begin{itemize}
+        \item \texttt{boolean guardar(T item)} — adiciona um item ao cofre. Retorna \texttt{false} se o cofre estiver cheio, exibindo uma mensagem de ``Cofre lotado!''. Não permita itens duplicados (\texttt{contains()}).
+        \item \texttt{T recuperar(int posicao)} — retorna o item na posição informada. Trate \texttt{IndexOutOfBoundsException} e retorne \texttt{null} em caso de posição inválida.
+        \item \texttt{boolean contem(T item)} — verifica se um item específico está no cofre usando \texttt{contains()}.
+        \item \texttt{T remover(int posicao)} — remove e retorna o item na posição indicada. Trate exceções.
+        \item \texttt{void listarConteudo()} — exibe todos os itens armazenados, o nome do dono e quantas posições ainda estão disponíveis.
+    \end{itemize}
+    \item Na classe \texttt{Main}, crie e demonstre o funcionamento de \textbf{três cofres} distintos:
+    \begin{enumerate}
+        \item \texttt{Cofre<String>} do cliente ``Alice'' (capacidade 5): guarde 4 documentos, tente guardar um duplicado (deve ser rejeitado), recupere o documento na posição 2 e liste o conteúdo.
+        \item \texttt{Cofre<Double>} do cliente ``Bruno'' (capacidade 3): guarde 3 quantias, tente guardar uma 4ª (deve exibir ``Cofre lotado!''), e remova a quantia na posição 1.
+        \item \texttt{Cofre<Integer>} do cliente ``Carla'' (capacidade 4): guarde 2 códigos de acesso, verifique se um código específico está no cofre usando \texttt{contem()}.
+    \end{enumerate}
+\end{itemize}
+
+\textbf{Pergunta Reflexiva:} Ao compilar o seu programa, o Java aplica \textbf{Type Erasure} e substitui o parâmetro \texttt{T} da classe \texttt{Cofre<T>} por \texttt{Object}. Isso significa que, no bytecode final, \textbf{só existe uma única classe} \texttt{Cofre} — e não três versões separadas (\texttt{Cofre\_String}, \texttt{Cofre\_Double}, \texttt{Cofre\_Integer}) como seria em linguagens como C++ com templates. Explique por que essa decisão de design da linguagem Java (ter uma única classe compartilhada no bytecode) impede o uso de certas operações em tempo de execução, como \texttt{new T()} ou \texttt{instanceof T}. Dica: se \texttt{T} vira \texttt{Object} no bytecode, o que o programa ``saberia'' sobre \texttt{T} durante a execução?
+
+\vspace{0.5cm}
+
+\section*{Questão 12: Inventário de Loja Virtual com Limites de Tipo (Desafio)}
+Uma loja virtual vende diferentes categorias de produtos: eletrônicos, livros e roupas. Todos os produtos compartilham atributos em comum (nome, preço), mas cada categoria possui dados específicos. O sistema de inventário precisa de uma estrutura genérica que funcione \textbf{apenas com subtipos de \texttt{Produto}} — rejeitando qualquer outro tipo (como \texttt{String} ou \texttt{Integer}) em tempo de compilação. Além disso, a equipe de relatórios precisa de um método utilitário que consiga calcular o valor total de \textbf{qualquer lista de produtos}, independentemente da categoria, usando \textbf{Wildcards}.
+
+\textbf{Requisitos:}
+\begin{itemize}
+    \item Crie uma classe abstrata \texttt{Produto} com:
+    \begin{itemize}
+        \item Atributos protegidos: \texttt{String nome} e \texttt{double preco}.
+        \item Construtor parametrizado e métodos \texttt{getNome()} e \texttt{getPreco()}.
+        \item Um método abstrato \texttt{String descricaoDetalhada()} que cada subcategoria deve implementar.
+        \item Sobrescreva \texttt{toString()} para exibir nome e preço formatado.
+    \end{itemize}
+    \item Crie \textbf{três subclasses concretas} de \texttt{Produto}:
+    \begin{itemize}
+        \item \texttt{Eletronico} — com atributo adicional \texttt{int garantiaMeses}.
+        \item \texttt{Livro} — com atributo adicional \texttt{String autor}.
+        \item \texttt{Roupa} — com atributo adicional \texttt{String tamanho}.
+    \end{itemize}
+    \item Crie uma classe genérica \texttt{Inventario<T extends Produto>} que encapsule:
+    \begin{itemize}
+        \item Um \texttt{ArrayList<T>} privado chamado \texttt{estoque}.
+        \item \texttt{void adicionar(T produto)} — insere um produto no estoque.
+        \item \texttt{T buscarPorNome(String nome)} — percorre a lista e retorna o primeiro produto cujo nome corresponda (ignore maiúsculas/minúsculas). Retorne \texttt{null} se não encontrado.
+        \item \texttt{void listar()} — exibe todos os produtos com sua \texttt{descricaoDetalhada()}.
+        \item \texttt{int quantidade()} — retorna o total de produtos no estoque.
+    \end{itemize}
+    \item Crie uma classe utilitária \texttt{RelatorioUtil} com um método \textbf{estático} que use \textbf{Wildcards}:
+    \begin{itemize}
+        \item \texttt{static double calcularValorTotal(ArrayList<? extends Produto> produtos)} — percorre qualquer lista de subtipos de \texttt{Produto} e retorna a soma dos preços.
+    \end{itemize}
+    \item Na classe \texttt{Main}, demonstre:
+    \begin{enumerate}
+        \item Crie um \texttt{Inventario<Eletronico>} e adicione 3 eletrônicos.
+        \item Crie um \texttt{Inventario<Livro>} e adicione 3 livros.
+        \item Crie um \texttt{Inventario<Roupa>} e adicione 2 roupas.
+        \item Liste o conteúdo de cada inventário.
+        \item Utilize \texttt{RelatorioUtil.calcularValorTotal()} para calcular e exibir o valor total de \textbf{cada} inventário separadamente — demonstrando que o método aceita \texttt{ArrayList<Eletronico>}, \texttt{ArrayList<Livro>} e \texttt{ArrayList<Roupa>} graças ao Wildcard.
+        \item Demonstre (em um comentário explicativo) que tentar criar \texttt{Inventario<String>} causa erro de compilação por violar o limite \texttt{T extends Produto}.
+    \end{enumerate}
+\end{itemize}
+
+\textbf{Pergunta Reflexiva:} O método \texttt{calcularValorTotal} aceita \texttt{ArrayList<? extends Produto>} em vez de \texttt{ArrayList<Produto>}. Explique por que \texttt{ArrayList<Eletronico>} \textbf{NÃO} é subtipo de \texttt{ArrayList<Produto>} em Java (conceito de \textbf{invariância} de tipos genéricos), e como o Wildcard \texttt{? extends} resolve esse problema. Além disso, sabendo que o Java aplica \textbf{Type Erasure}, o que acontece com \texttt{<T extends Produto>} durante a compilação: \texttt{T} é substituído por \texttt{Object} ou por \texttt{Produto}? Justifique.
+
 \end{document}
