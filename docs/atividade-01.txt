@@ -1,0 +1,42 @@
+Curso: Bacharelado em Sistemas de Informação
+Disciplina: Algoritmos e Estruturas de Dados I
+Professor: José Solenir Lima Figuerêdo
+EXERCÍCIOS
+Objetivo: Esta lista tem como objetivo desenvolver sua compreensão sobre a estrutura de
+dados ArrayList da linguagem Java, explorando desde operações básicas até conceitos
+mais avançados como ordenação, uso de Comparable, Comparator e processamento com
+Streams.
+1. Cadastro simples de nomes
+Você foi solicitado a desenvolver um pequeno programa que armazene nomes de
+pessoas. Para isso:
+• Crie um ArrayList<String>
+• Adicione pelo menos 5 nomes diferentes
+• Exiba todos os nomes utilizando uma estrutura de repetição
+2. Desenvolva um programa que
+• Crie um ArrayList<Integer>
+• Insira os números de 1 até 10
+• Remova o número 5 da lista
+• Exiba o conteúdo final da lista
+Explique o que acontece com os índices após a remoção
+3. Crie um programa que:
+• Armazene números de 1 a 20 em uma lista
+• Remova todos os números pares utilizando uma abordagem segura
+Explique por que remover elementos diretamente em um for tradicional pode causar
+problemas.
+4. Crie uma classe Aluno com atributos como nome e idade. Em seguida:
+• Crie um ArrayList<Aluno>
+• Adicione pelo menos 5 objetos
+• Exiba os dados de todos os alunos
+Modifique a classe Aluno para:
+• Implementar a interface Comparable
+• Definir um critério de ordenação (por idade)
+Ordene a lista de alunos e exiba o resultado.
+5. Implemente uma agenda onde:
+• Cada contato é representado por um ArrayList<String> contendo: nome,
+telefone, email.
+• A agenda é um ArrayList<ArrayList<String>>.
+Funcionalidades:
+• Inserir contato
+• Buscar por nome
+• Remover contato
+• Listar todos

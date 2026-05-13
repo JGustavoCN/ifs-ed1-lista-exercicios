@@ -1,0 +1,39 @@
+Curso: Bacharelado em Sistemas de Informação
+Disciplina: Algoritmos e Estruturas de Dados I
+Professor: José Solenir Lima Figuerêdo
+EXERCÍCIOS
+1. Crie uma classe genérica Caixa<T> que armazene um único valor. Implemente os
+métodos guardar(T item) e abrir(): T. Utilize boas práticas de programação, por
+exemplo, uso de interfaces.
+2. Crie uma classe Par<A, B> com dois tipos diferentes. Armazene e retorne ambos os
+valores.
+3. Escreva um método somarLista(List<? extends Number> lista) que retorne a soma
+de todos os elementos como double, sem usar raw types.
+4. Defina uma interface genérica Repositorio<T, ID> com métodos salvar(T),
+buscarPorId(ID): Optional<T> e listarTodos(): List<T>. Implemente uma classe
+Usuario para ser utilizada nos testes.
+5. Você está criando uma camada de persistência genérica. Crie uma classe
+Repositorio<T> com: salvar(T obj) e listar().
+6. Você quer restringir tipos para garantir comportamento específico. Crie um método
+que aceite apenas objetos que: estendam Number e implementem Comparable.
+7. Implemente em Java uma solução genérica chamada Validador<T> capaz de validar
+objetos de qualquer tipo utilizando regras definidas de forma dinâmica. O validador
+deve armazenar internamente uma lista de regras em um ArrayList, sem o uso de
+Map, onde cada regra deve ser representada por uma classe Regra<T> contendo
+um Predicate<T> responsável pela condição de validação e uma String que
+armazena a mensagem de erro associada àquela regra (por exemplo, “mínimo 3
+caracteres”). A classe Validador<T> deve permitir a adição de regras por meio do
+método adicionar(Predicate<T> regra, String mensagem), retornando o próprio
+objeto para permitir encadeamento de chamadas, e deve possuir o método validar(T
+valor) que executa todas as regras sobre o valor informado e retorna uma lista de
+mensagens contendo apenas as regras que não foram satisfeitas, ou uma lista vazia
+caso todas sejam atendidas.
+8. Crie uma classe genérica Pipeline<T> responsável por representar um
+encadeamento de transformações funcionais sobre um valor do tipo T. Essa classe
+deve permitir a adição de etapas de processamento, onde cada etapa é uma função
+do tipo Function<T, T>, armazenadas internamente em uma estrutura do tipo
+ArrayList. A classe deve fornecer o método adicionar(Function<T, T>), que insere
+uma nova transformação no pipeline e permite encadeamento de chamadas, e o
+método executar(T input): T, que aplica sequencialmente todas as transformações
+armazenadas sobre o valor de entrada e retorna o resultado final após a execução
+de todas as etapas.
