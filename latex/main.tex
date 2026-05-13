@@ -240,4 +240,94 @@ Um hospital utiliza um sistema de fila de atendimento baseado em senhas numéric
 
 \textbf{Pergunta Reflexiva:} O método \texttt{redimensionar} cria um novo array e copia todos os elementos um a um. Sabendo que arrays ocupam \textbf{blocos contíguos de memória}, explique por que o Java (e a maioria das linguagens) não pode simplesmente ``esticar'' o array original na memória. O que acontece com o array antigo após a cópia? Relacione sua resposta com o conceito de \textit{Garbage Collection} da JVM.
 
+% ==========================================
+%     TEMA 3: ARRAYLIST (REDIMENSIONAMENTO DINÂMICO)
+% ==========================================
+\newpage
+
+\noindent\rule{\textwidth}{0.8pt}
+\begin{center}
+    \large\textbf{TEMA 3 — ARRAYLIST: REDIMENSIONAMENTO DINÂMICO E API COLLECTIONS}
+\end{center}
+\noindent\rule{\textwidth}{0.8pt}
+\vspace{0.4cm}
+
+\section*{Questão 7: Registro de Check-ins em Museu (Conceito)}
+Um museu interativo recém-inaugurado quer digitalizar o registro de visitantes. A cada dia, um número completamente imprevisível de pessoas pode aparecer: desde 5 em uma segunda-feira chuvosa até 300 em um feriado nacional. Usar um array de tamanho fixo seria impraticável, pois o museu não sabe antecipadamente quantos visitantes receberá. Sua tarefa é utilizar um \texttt{ArrayList<String>} para criar um sistema flexível de check-in.
+
+\textbf{Requisitos:}
+\begin{itemize}
+    \item Crie um \texttt{ArrayList<String>} chamado \texttt{visitantes}.
+    \item Simule a chegada de \textbf{8 visitantes} ao museu, adicionando seus nomes à lista com o método \texttt{add()}.
+    \item Após todos os check-ins, exiba o \textbf{total de visitantes} registrados utilizando \texttt{size()}.
+    \item Exiba o \textbf{nome do 3º visitante} (índice 2) utilizando o método \texttt{get()}.
+    \item Verifique se um visitante específico (à sua escolha) está na lista usando \texttt{contains()}.
+    \item Exiba a lista completa de visitantes utilizando um laço \texttt{for-each}.
+\end{itemize}
+
+\textbf{Pergunta Reflexiva:} Um \texttt{ArrayList} internamente utiliza um array primitivo como estrutura de armazenamento. Sabendo que o \texttt{ArrayList} possui uma \textbf{capacidade inicial padrão de 10 posições} no Java, o que acontece nos bastidores da JVM quando você insere o 11º visitante? Descreva o processo de \textbf{redimensionamento automático} (criação de novo array, cópia de elementos, fator de crescimento) e explique por que, apesar do custo pontual dessa operação, o tempo \textbf{amortizado} de inserção continua sendo $O(1)$.
+
+\vspace{0.5cm}
+
+\section*{Questão 8: Gerenciador de Encomendas de Transportadora (Prática)}
+Uma transportadora regional precisa de um sistema para gerenciar a lista de encomendas pendentes do dia. O volume de entregas varia drasticamente: em dias comuns são 20 pacotes, mas em datas promocionais (Black Friday, Natal) podem chegar mais de 500. O sistema deve permitir adicionar encomendas conforme chegam, consultar encomendas por posição, localizar uma encomenda pelo código de rastreio e remover encomendas que forem despachadas.
+
+\textbf{Requisitos:}
+\begin{itemize}
+    \item Crie uma classe \texttt{GerenciadorEncomendas} que encapsule:
+    \begin{itemize}
+        \item Um \texttt{ArrayList<String>} chamado \texttt{encomendas} para armazenar os códigos de rastreio.
+    \end{itemize}
+    \item Implemente o método \texttt{registrar(String codigoRastreio)} — adiciona uma nova encomenda ao final da lista usando \texttt{add()}. Antes de inserir, verifique com \texttt{contains()} se o código já existe (não permita duplicatas).
+    \item Implemente o método \texttt{inserirUrgente(int posicao, String codigoRastreio)} — insere uma encomenda prioritária em uma posição específica usando \texttt{add(int index, E element)}. Valide o índice com tratamento de exceção (\texttt{IndexOutOfBoundsException}).
+    \item Implemente o método \texttt{consultar(int posicao)} — retorna o código de rastreio na posição indicada usando \texttt{get()}. Trate a exceção \texttt{IndexOutOfBoundsException}.
+    \item Implemente o método \texttt{localizar(String codigoRastreio)} — retorna a posição (índice) da encomenda na fila usando \texttt{indexOf()}. Se não encontrada, retorne \texttt{-1}.
+    \item Implemente o método \texttt{despachar(String codigoRastreio)} — remove a encomenda da lista usando \texttt{remove(Object)}. Exiba uma mensagem de sucesso ou de ``encomenda não encontrada''.
+    \item Implemente o método \texttt{exibirPainel()} — lista todas as encomendas pendentes com seus índices e exiba a quantidade total via \texttt{size()}.
+    \item Na classe \texttt{Main}, simule o seguinte cenário:
+    \begin{enumerate}
+        \item Registre 6 encomendas com códigos fictícios (ex: ``BR123456789'').
+        \item Tente registrar uma encomenda com código duplicado (deve ser rejeitada).
+        \item Insira uma encomenda urgente na posição 0.
+        \item Consulte a encomenda na posição 3.
+        \item Localize o índice de uma encomenda pelo seu código.
+        \item Despache 2 encomendas (removendo-as da lista).
+        \item Exiba o painel final.
+    \end{enumerate}
+\end{itemize}
+
+\textbf{Pergunta Reflexiva:} O método \texttt{add(int index, E element)} do \texttt{ArrayList} permite inserir em qualquer posição válida. Internamente, o \texttt{ArrayList} usa o método nativo \texttt{System.arraycopy()} para deslocar os elementos subsequentes. Compare o custo dessa operação com a inserção que você implementou manualmente com \texttt{for} no Tema 2 (Array Primitivo). Existe diferença de complexidade Big-O? Qual a vantagem real que o \texttt{ArrayList} oferece em relação ao array primitivo, considerando o redimensionamento?
+
+\vspace{0.5cm}
+
+\section*{Questão 9: Filtro de Alertas em Sistema de Monitoramento IoT (Desafio)}
+Uma fábrica possui sensores IoT espalhados em diversas máquinas. Cada sensor gera alertas com um nível de severidade: \texttt{"INFO"}, \texttt{"WARNING"} ou \texttt{"CRITICAL"}. Ao final de cada turno, o operador precisa \textbf{filtrar} a lista de alertas removendo todos os alertas de nível \texttt{"INFO"} (considerados irrelevantes) para gerar um relatório apenas com os alertas que exigem atenção.
+
+O grande desafio é: como remover elementos de um \texttt{ArrayList} \textbf{durante} uma iteração sem causar erros ou pular elementos?
+
+\textbf{Requisitos:}
+\begin{itemize}
+    \item Crie uma classe \texttt{Alerta} com os atributos:
+    \begin{itemize}
+        \item \texttt{String sensor} — identificação do sensor (ex: ``Sensor-T01'').
+        \item \texttt{String nivel} — nível de severidade (\texttt{"INFO"}, \texttt{"WARNING"} ou \texttt{"CRITICAL"}).
+        \item \texttt{String mensagem} — descrição do alerta.
+    \end{itemize}
+    \item Crie uma classe \texttt{PainelDeAlertas} que encapsule um \texttt{ArrayList<Alerta>} e implemente:
+    \begin{itemize}
+        \item \texttt{registrar(Alerta alerta)} — adiciona um alerta à lista.
+        \item \texttt{exibirTodos()} — exibe todos os alertas com seus dados.
+    \end{itemize}
+    \item Na classe \texttt{Main}, popule o painel com pelo menos \textbf{10 alertas} (misturando os três níveis de severidade).
+    \item Implemente \textbf{três estratégias distintas de remoção} para remover os alertas \texttt{"INFO"}, cada uma em uma cópia separada da lista original:
+    \begin{itemize}
+        \item \textbf{Estratégia A (INCORRETA):} Utilize um \texttt{for} tradicional com índice (\texttt{for (int i = 0; i < lista.size(); i++)}) e \texttt{remove(i)} dentro do laço. Execute e observe o comportamento — elementos serão \textbf{pulados}.
+        \item \textbf{Estratégia B (CORRETA):} Utilize um \texttt{Iterator<Alerta>} explícito com \texttt{iterator.hasNext()}, \texttt{iterator.next()} e \texttt{iterator.remove()} para remoção segura.
+        \item \textbf{Estratégia C (MODERNA):} Utilize o método \texttt{removeIf()} com uma expressão lambda para remover os alertas de forma concisa e segura.
+    \end{itemize}
+    \item Após cada estratégia, exiba os alertas remanescentes e compare os resultados.
+\end{itemize}
+
+\textbf{Pergunta Reflexiva:} Na Estratégia A, ao remover o elemento no índice \texttt{i}, todos os elementos subsequentes são deslocados uma posição para a esquerda pelo \texttt{ArrayList}. Porém, a variável \texttt{i} é incrementada normalmente pelo \texttt{for}. Explique, passo a passo com um exemplo de 4 elementos, por que isso faz com que o elemento que estava imediatamente após o removido seja ``pulado'' pela iteração. Em seguida, explique como a abordagem de percorrer a lista \textbf{do final para o início} (\texttt{for (int i = lista.size()-1; i >= 0; i--)}) resolveria o problema sem usar \texttt{Iterator}. Por que essa técnica funciona?
+
 \end{document}
