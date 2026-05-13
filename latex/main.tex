@@ -646,4 +646,75 @@ Uma plataforma de música permite que o usuário reordene sua playlist. O desafi
 
 \textbf{Pergunta Reflexiva:} Ao inserir um nó entre dois nós existentes em uma lista dupla, a ordem das operações de ponteiro é crítica para não "perder" a lista no meio do processo. Descreva, passo a passo, a sequência lógica de atribuições que você utilizou. Por que usar sentinelas (\texttt{header/trailer}) torna a implementação de métodos de inserção e remoção muito mais segura e menos propensa a erros de "ponteiro nulo"?
 
+% ==========================================
+%     TEMA 7: LISTA CIRCULAR SIMPLESMENTE ENCADEADA
+% ==========================================
+\newpage
+
+\noindent\rule{\textwidth}{0.8pt}
+\begin{center}
+    \large\textbf{TEMA 7 — LISTA CIRCULAR: ESTRUTURAS CÍCLICAS E PONTEIRO TAIL}
+\end{center}
+\noindent\rule{\textwidth}{0.8pt}
+\vspace{0.4cm}
+
+\section*{Questão 19: Player de Música em Modo Repetir (Conceito)}
+Em um player de música, o modo "Repetir Tudo" faz com que, após a última música terminar, a primeira comece a tocar novamente de forma automática. Uma \textbf{Lista Circular Simplesmente Encadeada} é a estrutura ideal para esse comportamento, pois o ponteiro \texttt{proximo} do último nó não é \texttt{null}, mas sim aponta de volta para o primeiro nó. Uma otimização comum (seguindo Goodrich \& Tamassia) é manter apenas o ponteiro para o \textbf{último nó} (\texttt{tail}), pois \texttt{tail.proximo} nos dá acesso direto à cabeça da lista.
+
+\textbf{Requisitos:}
+\begin{itemize}
+    \item Crie uma classe \texttt{No} que armazene o nome da música e o ponteiro para o próximo.
+    \item Crie uma classe \texttt{PlayerCircular} que mantenha apenas o atributo \texttt{No tail} (inicialmente \texttt{null}).
+    \item Implemente os métodos:
+    \begin{itemize}
+        \item \texttt{void adicionarMusica(String nome)} — insere no final. Lembre-se: se a lista estiver vazia, o nó aponta para si mesmo. Se não, o novo nó aponta para a antiga cabeça, e o \texttt{tail} aponta para o novo nó.
+        \item \texttt{void exibirPlaylist()} — percorre a lista e imprime as músicas. \textbf{Atenção:} Como não existe \texttt{null}, você deve salvar a referência inicial e parar quando o ponteiro "der a volta".
+    \end{itemize}
+    \item Na classe \texttt{Main}, adicione 3 músicas e exiba a playlist.
+\end{itemize}
+
+\textbf{Pergunta Reflexiva:} Em uma lista encadeada simples tradicional, a condição de parada de um laço \texttt{while} é \texttt{atual != null}. Em uma lista circular, essa condição causaria um loop infinito. Explique, detalhadamente, qual lógica você utilizou para garantir que o método \texttt{exibirPlaylist} percorra todos os elementos e pare exatamente após completar uma volta.
+
+\vspace{0.5cm}
+
+\section*{Questão 20: Gerenciador de Turnos de Jogo de Tabuleiro (Prática)}
+Em jogos de tabuleiro como Banco Imobiliário ou War, os jogadores realizam suas jogadas em rodadas cíclicas. Após o último jogador, o turno volta para o primeiro. Além disso, jogadores podem ser eliminados durante a partida.
+
+\textbf{Requisitos:}
+\begin{itemize}
+    \item Crie uma classe \texttt{Jogador} com \texttt{nome} e \texttt{pontuacao}.
+    \item Implemente a classe \texttt{GerenciadorTurnos} (Lista Circular) com o método \texttt{proximoTurno()}:
+    \begin{itemize}
+        \item Este método deve apenas mover um ponteiro interno para o próximo nó e retornar o jogador da vez.
+    \end{itemize}
+    \item Implemente o método \texttt{eliminarJogador(String nome)}:
+    \begin{itemize}
+        \item Localize o jogador e remova-o da lista, ajustando os ponteiros para manter a circularidade.
+        \item Trate o caso especial onde resta apenas um jogador (o vencedor).
+    \end{itemize}
+    \item Na classe \texttt{Main}, simule 3 rodadas de um jogo com 4 jogadores e elimine o 2º jogador após a primeira rodada.
+\end{itemize}
+
+\textbf{Pergunta Reflexiva:} No gerenciamento de turnos, a operação de "passar a vez" é extremamente frequente. Qual a complexidade de tempo ($O$) dessa operação em uma lista circular? Compare essa eficiência com o uso de um \texttt{ArrayList}, onde remover o jogador do índice 0 e inseri-lo no final a cada turno exigiria deslocar todos os outros elementos.
+
+\vspace{0.5cm}
+
+\section*{Questão 21: Escalonador Round Robin de Processos (Desafio)}
+Um Sistema Operacional utiliza o algoritmo \textbf{Round Robin} para distribuir o tempo de CPU entre vários processos. Cada processo recebe uma fatia de tempo fixa (Quantum). Se o processo não terminar nesse tempo, ele volta para o fim da fila; se terminar, é removido da lista.
+
+\textbf{Requisitos:}
+\begin{itemize}
+    \item Crie uma classe \texttt{Processo} com \texttt{id}, \texttt{nome} e \texttt{tempoExecucao} (restante).
+    \item Implemente o escalonador em uma \texttt{ListaCircular}:
+    \begin{itemize}
+        \item O escalonador deve percorrer a lista. A cada nó, subtraia o \texttt{quantum} (ex: 20ms) do \texttt{tempoExecucao}.
+        \item Se o tempo chegar a 0, remova o nó da lista circular.
+        \item Continue o ciclo até que a lista esteja vazia.
+    \end{itemize}
+    \item Exiba o estado da fila a cada ciclo de escalonamento.
+    \item Na classe \texttt{Main}, insira 3 processos com tempos diferentes (ex: 50ms, 20ms, 30ms) e execute o escalonador com quantum de 20ms.
+\end{itemize}
+
+\textbf{Pergunta Reflexiva:} Durante o escalonamento Round Robin, o "ponteiro atual" está sempre em movimento. Ao remover um processo que acabou de terminar, você deve garantir que a circularidade da lista permaneça intacta. Descreva como sua implementação trata a remoção de um nó em uma lista circular: como você encontra o nó anterior para religar a lista e o que acontece se o nó removido for o \texttt{tail}?
+
 \end{document}
