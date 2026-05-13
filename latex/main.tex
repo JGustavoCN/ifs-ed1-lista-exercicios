@@ -448,4 +448,122 @@ Uma loja virtual vende diferentes categorias de produtos: eletrônicos, livros e
 
 \textbf{Pergunta Reflexiva:} O método \texttt{calcularValorTotal} aceita \texttt{ArrayList<? extends Produto>} em vez de \texttt{ArrayList<Produto>}. Explique por que \texttt{ArrayList<Eletronico>} \textbf{NÃO} é subtipo de \texttt{ArrayList<Produto>} em Java (conceito de \textbf{invariância} de tipos genéricos), e como o Wildcard \texttt{? extends} resolve esse problema. Além disso, sabendo que o Java aplica \textbf{Type Erasure}, o que acontece com \texttt{<T extends Produto>} durante a compilação: \texttt{T} é substituído por \texttt{Object} ou por \texttt{Produto}? Justifique.
 
+% ==========================================
+%     TEMA 5: LISTA SIMPLESMENTE ENCADEADA (SINGLY LINKED LIST)
+% ==========================================
+\newpage
+
+\noindent\rule{\textwidth}{0.8pt}
+\begin{center}
+    \large\textbf{TEMA 5 — LISTA SIMPLESMENTE ENCADEADA: ALOCAÇÃO NÃO-CONTÍGUA E PONTEIROS}
+\end{center}
+\noindent\rule{\textwidth}{0.8pt}
+\vspace{0.4cm}
+
+\section*{Questão 13: Correia Transportadora de Fábrica (Conceito)}
+Uma fábrica de embalagens possui uma correia transportadora onde as caixas são processadas uma a uma, na ordem de chegada. Cada caixa carrega um código de identificação (\texttt{String}) e está fisicamente ligada à próxima caixa da linha por um gancho mecânico. Diferentemente de uma esteira com slots fixos (análoga a um array), a correia pode receber um número ilimitado de caixas pois não exige posições pré-alocadas — basta engatar uma nova caixa ao final da sequência.
+
+Sua tarefa é modelar essa correia transportadora utilizando uma \textbf{Lista Simplesmente Encadeada} (Singly Linked List), implementando do zero as classes \texttt{No} (nó) e \texttt{CorreiaTransportadora} (lista).
+
+\textbf{Requisitos:}
+\begin{itemize}
+    \item Crie uma classe \texttt{No} (representando uma caixa na correia) com:
+    \begin{itemize}
+        \item Um atributo \texttt{String codigo} — o código de identificação da caixa.
+        \item Um atributo \texttt{No proximo} — a referência (ponteiro) para a próxima caixa na correia. Inicialmente \texttt{null}.
+        \item Um construtor que receba o código e inicialize \texttt{proximo} como \texttt{null}.
+    \end{itemize}
+    \item Crie uma classe \texttt{CorreiaTransportadora} com:
+    \begin{itemize}
+        \item Um atributo \texttt{No cabeca} — ponteiro para a primeira caixa da correia. Inicialmente \texttt{null} (correia vazia).
+        \item Um atributo \texttt{int tamanho} — quantidade de caixas na correia. Inicialmente 0.
+    \end{itemize}
+    \item Implemente os seguintes métodos:
+    \begin{itemize}
+        \item \texttt{void adicionarNoInicio(String codigo)} — cria uma nova caixa e a coloca no \textbf{início} da correia (a nova caixa se torna a nova cabeça, e seu \texttt{proximo} aponta para a antiga cabeça).
+        \item \texttt{void adicionarNoFim(String codigo)} — cria uma nova caixa e a coloca no \textbf{final} da correia. Para isso, percorra a lista até encontrar o último nó (aquele cujo \texttt{proximo} é \texttt{null}) e enganche a nova caixa ali. Trate o caso da correia vazia.
+        \item \texttt{void exibirCorreia()} — percorre a correia do início ao fim, imprimindo cada código no formato \texttt{[CX-001] -> [CX-002] -> ... -> null}.
+    \end{itemize}
+    \item Na classe \texttt{Main}, simule:
+    \begin{enumerate}
+        \item Adicione 3 caixas no final da correia (``CX-101'', ``CX-102'', ``CX-103'').
+        \item Exiba a correia.
+        \item Adicione 1 caixa no início (``CX-URGENTE'').
+        \item Exiba a correia novamente e imprima o tamanho.
+    \end{enumerate}
+\end{itemize}
+
+\textbf{Pergunta Reflexiva:} Observe que, para adicionar uma caixa no \textbf{início} da correia, bastou atualizar dois ponteiros (operação $O(1)$), enquanto para adicionar no \textbf{final} foi necessário percorrer toda a lista do início até o último nó (operação $O(n)$). Compare essa situação com a de um array primitivo, onde a inserção no final é $O(1)$ (se houver espaço) mas a inserção no início exige deslocar todos os elementos. Qual estrutura é mais eficiente para inserções frequentes no \textbf{início} dos dados? Justifique com base no conceito de alocação contígua versus não-contígua em memória.
+
+\vspace{0.5cm}
+
+\section*{Questão 14: Gerenciador de Processos de Sistema Operacional (Prática)}
+Um sistema operacional simplificado mantém uma lista de processos em execução. Cada processo possui um \texttt{int pid} (identificador único) e uma \texttt{String nome} (ex: ``navegador'', ``editor''). Os processos são gerenciados em uma \textbf{Lista Simplesmente Encadeada}, permitindo que o S.O. inicie (insira) e finalize (remova) processos dinamicamente sem se preocupar com capacidade fixa.
+
+\textbf{Requisitos:}
+\begin{itemize}
+    \item Crie uma classe \texttt{Processo} com os atributos \texttt{int pid} e \texttt{String nome}, além de um construtor parametrizado e um método \texttt{toString()}.
+    \item Crie uma classe \texttt{No} com:
+    \begin{itemize}
+        \item Um atributo \texttt{Processo dado} — o processo armazenado no nó.
+        \item Um atributo \texttt{No proximo} — referência para o próximo nó.
+    \end{itemize}
+    \item Crie uma classe \texttt{ListaDeProcessos} com o ponteiro \texttt{No cabeca} e \texttt{int tamanho}, e implemente:
+    \begin{itemize}
+        \item \texttt{void iniciarProcesso(Processo p)} — insere o processo no \textbf{início} da lista (simulando prioridade ao processo mais recente). Complexidade: $O(1)$.
+        \item \texttt{void iniciarProcessoNoFim(Processo p)} — insere o processo no \textbf{final} da lista. Complexidade: $O(n)$.
+        \item \texttt{Processo finalizarPrimeiro()} — remove e retorna o processo que está na \textbf{cabeça} da lista (o mais recente). Trate o caso de lista vazia exibindo um aviso. Complexidade: $O(1)$.
+        \item \texttt{void exibirProcessos()} — percorre a lista e imprime todos os processos ativos no formato encadeado.
+        \item \texttt{int contarProcessos()} — retorna o tamanho da lista.
+    \end{itemize}
+    \item Na classe \texttt{Main}, simule o seguinte cenário:
+    \begin{enumerate}
+        \item Inicie 3 processos no início: (pid=1, ``kernel''), (pid=2, ``navegador''), (pid=3, ``editor'').
+        \item Inicie 1 processo no final: (pid=4, ``backup'').
+        \item Exiba todos os processos ativos.
+        \item Finalize o primeiro processo (cabeça). Exiba qual processo foi finalizado.
+        \item Exiba a lista atualizada e a contagem de processos.
+    \end{enumerate}
+\end{itemize}
+
+\textbf{Pergunta Reflexiva:} Na operação \texttt{iniciarProcessoNoFim}, você precisou percorrer \textbf{todos} os nós da lista para encontrar o último. Em uma lista com 1 milhão de processos, essa travessia custaria $O(n)$ acessos à memória. Qual modificação estrutural na classe \texttt{ListaDeProcessos} eliminaria esse custo, tornando a inserção no final também $O(1)$? Descreva essa modificação e explique quais métodos precisariam ser ajustados para manter a consistência do novo ponteiro.
+
+\vspace{0.5cm}
+
+\section*{Questão 15: Central de Ocorrências Policiais (Desafio)}
+Uma delegacia de polícia registra boletins de ocorrência (B.O.) em um sistema legado baseado em uma \textbf{Lista Simplesmente Encadeada}. Cada B.O. possui um \texttt{int numero} (número do boletim, único), uma \texttt{String tipo} (ex: ``Furto'', ``Acidente'', ``Agressão'') e uma \texttt{String descricao} (breve relato). O sistema precisa suportar operações de busca e remoção de B.O.s no \textbf{meio} da lista — situações que exigem cuidado redobrado para evitar \texttt{NullPointerException} durante a travessia dos ponteiros.
+
+\textbf{Requisitos:}
+\begin{itemize}
+    \item Crie uma classe \texttt{BoletimOcorrencia} com os atributos \texttt{int numero}, \texttt{String tipo} e \texttt{String descricao}, além de construtor parametrizado e \texttt{toString()}.
+    \item Crie uma classe \texttt{No} com atributo \texttt{BoletimOcorrencia dado} e \texttt{No proximo}.
+    \item Crie uma classe \texttt{CentralOcorrencias} com \texttt{No cabeca}, \texttt{int tamanho}, e implemente:
+    \begin{itemize}
+        \item \texttt{void registrar(BoletimOcorrencia bo)} — insere o B.O. no \textbf{final} da lista.
+        \item \texttt{BoletimOcorrencia buscarPorNumero(int numero)} — percorre a lista buscando o B.O. com o número informado. Retorne o objeto encontrado ou \texttt{null} se não existir. \textbf{Cuidado:} verifique se o nó atual não é \texttt{null} antes de acessar seus atributos para evitar \texttt{NullPointerException}.
+        \item \texttt{boolean removerPorNumero(int numero)} — remove o B.O. com o número informado, onde quer que ele esteja na lista. Para isso, utilize a técnica do \textbf{ponteiro anterior} (\texttt{anterior}): mantenha duas referências durante a travessia — uma para o nó atual e outra para o nó anterior. Ao encontrar o B.O. desejado, faça \texttt{anterior.proximo = atual.proximo} para ``pular'' o nó removido. Trate os casos especiais:
+        \begin{itemize}
+            \item Remoção quando o B.O. está na \textbf{cabeça} da lista.
+            \item Remoção quando o B.O. \textbf{não é encontrado}.
+            \item Lista vazia.
+        \end{itemize}
+        Retorne \texttt{true} se removido com sucesso, \texttt{false} caso contrário.
+        \item \texttt{void listarOcorrencias()} — exibe todos os B.O.s registrados com seus dados completos.
+        \item \texttt{int totalOcorrencias()} — retorna a quantidade de B.O.s na central.
+    \end{itemize}
+    \item Na classe \texttt{Main}, simule o seguinte cenário:
+    \begin{enumerate}
+        \item Registre 5 boletins de ocorrência com dados fictícios (números 1001 a 1005).
+        \item Liste todas as ocorrências.
+        \item Busque o B.O. número 1003 e exiba seus dados.
+        \item Busque um B.O. inexistente (número 9999) e trate o retorno \texttt{null}.
+        \item Remova o B.O. 1001 (cabeça da lista). Exiba a lista atualizada.
+        \item Remova o B.O. 1003 (meio da lista). Exiba a lista atualizada.
+        \item Remova o B.O. 1005 (final da lista). Exiba a lista atualizada e o total.
+        \item Tente remover o B.O. 9999 (inexistente) e exiba a mensagem de falha.
+    \end{enumerate}
+\end{itemize}
+
+\textbf{Pergunta Reflexiva:} Para remover um nó no \textbf{meio} de uma Lista Simplesmente Encadeada, foi necessário primeiro \textbf{encontrá-lo} (percorrendo a lista) e depois atualizar o ponteiro \texttt{proximo} do nó anterior. Essa operação de busca custa $O(n)$ no pior caso. Compare isso com um \texttt{ArrayList}, onde o acesso por índice é $O(1)$ (acesso direto). Por que uma lista encadeada \textbf{não} permite acesso direto por índice? Relacione sua explicação com a diferença entre alocação \textbf{contígua} de memória (os elementos ficam lado a lado, permitindo cálculo de endereço por aritmética) e alocação \textbf{não-contígua} (cada nó pode estar em qualquer lugar da memória, conectado apenas por referências). Em que situações essa ``desvantagem'' da lista encadeada é compensada por suas vantagens?
+
 \end{document}
