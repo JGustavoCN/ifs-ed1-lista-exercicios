@@ -162,4 +162,82 @@ Um banco processa milhões de transações diárias. Para otimizar o sistema de 
 
 \textbf{Pergunta Reflexiva:} Ao utilizar a estratégia de divisão e conquista da Busca Binária recursiva, o tamanho do problema cai pela metade a cada chamada. Como essa característica afeta a profundidade máxima da pilha de chamadas (\textit{Call Stack}) em comparação com uma busca recursiva simples de ponta a ponta (busca linear) para o mesmo array? Explique a vantagem de desempenho com base nisso.
 
+% ==========================================
+%     TEMA 2: ARRAY PRIMITIVO (TAMANHO FIXO)
+% ==========================================
+\newpage
+
+\noindent\rule{\textwidth}{0.8pt}
+\begin{center}
+    \large\textbf{TEMA 2 — ARRAY PRIMITIVO: ALOCAÇÃO CONTÍGUA E TAMANHO FIXO}
+\end{center}
+\noindent\rule{\textwidth}{0.8pt}
+\vspace{0.4cm}
+
+\section*{Questão 4: Controle de Vagas de Estacionamento (Conceito)}
+Uma empresa de mobilidade urbana opera um estacionamento inteligente com um número fixo de vagas numeradas (de 0 a $N-1$). O sistema mantém um \textbf{array primitivo de Strings} de tamanho fixo, onde cada posição armazena a placa do veículo estacionado ou \texttt{null} se a vaga estiver livre. Você deve implementar um painel de controle básico para esse estacionamento.
+
+\textbf{Requisitos:}
+\begin{itemize}
+    \item Declare um array de \texttt{String} com capacidade fixa de \textbf{8 vagas}.
+    \item Implemente um método \texttt{estacionar(String[] vagas, int posicao, String placa)} que registre um veículo em uma posição específica. Se a posição já estiver ocupada, o método deve exibir um aviso e \textbf{não} sobrescrever a placa existente.
+    \item Implemente um método \texttt{liberar(String[] vagas, int posicao)} que remova o veículo da posição informada (atribuindo \texttt{null}).
+    \item Implemente um método \texttt{exibirPainel(String[] vagas)} que percorra todo o array e imprima o estado de cada vaga (livre ou ocupada com a respectiva placa).
+    \item Na classe \texttt{Main}, simule a seguinte sequência: estacione 4 veículos em posições à sua escolha, tente estacionar um 5º veículo em uma posição já ocupada, libere uma vaga e exiba o painel final.
+\end{itemize}
+
+\textbf{Pergunta Reflexiva:} O array de vagas foi criado com tamanho fixo de 8 posições. Suponha que o estacionamento precise expandir para 12 vagas. Explique, do ponto de vista da alocação de memória contígua, por que \textbf{não é possível} simplesmente ``aumentar'' o array existente. Qual seria a estratégia necessária para acomodar as novas vagas e qual o custo computacional envolvido nessa operação?
+
+\vspace{0.5cm}
+
+\section*{Questão 5: Gerenciador de Playlist Musical (Prática)}
+Uma plataforma de streaming de música permite que o usuário crie playlists com um limite máximo de músicas. Internamente, a playlist é representada por um \textbf{array primitivo de Strings} de capacidade fixa e uma variável \texttt{tamanho} que controla quantas músicas foram efetivamente inseridas. Você deve construir um gerenciador completo que demonstre as operações de inserção e remoção e seus custos.
+
+\textbf{Requisitos:}
+\begin{itemize}
+    \item Crie uma classe \texttt{Playlist} que encapsule:
+    \begin{itemize}
+        \item Um array \texttt{String[] musicas} com capacidade fixa de \textbf{7}.
+        \item Um atributo \texttt{int tamanho} (inicialmente 0) para rastrear a quantidade real de músicas.
+    \end{itemize}
+    \item Implemente o método \texttt{adicionarNoFim(String musica)} — insere no final da playlist. Caso a playlist esteja cheia, exiba uma mensagem de erro.
+    \item Implemente o método \texttt{inserirNaPosicao(int posicao, String musica)} — insere uma música em uma posição específica, \textbf{deslocando (shift)} todos os elementos subsequentes uma posição para a direita. Valide se a posição é válida e se há espaço disponível.
+    \item Implemente o método \texttt{removerDaPosicao(int posicao)} — remove a música na posição indicada, \textbf{deslocando (shift)} todos os elementos subsequentes uma posição para a esquerda para preencher o ``buraco''. Atribua \texttt{null} à última posição antes ocupada e decremente \texttt{tamanho}.
+    \item Implemente o método \texttt{exibir()} que mostre apenas as músicas válidas (do índice 0 até \texttt{tamanho - 1}).
+    \item Na classe \texttt{Main}, demonstre: adicione 5 músicas ao final, insira uma música na posição 2, remova a música na posição 0, e exiba a playlist após cada operação. Imprima \textbf{quantos deslocamentos (shifts)} foram necessários em cada inserção e remoção.
+\end{itemize}
+
+\textbf{Pergunta Reflexiva:} Ao inserir uma música na posição 0 de uma playlist que já contém $N$ músicas, todos os $N$ elementos precisam ser deslocados uma posição para a direita. Qual é a complexidade de tempo (Big-O) dessa operação no \textbf{pior caso}? Compare com a inserção no final. Por que essa diferença é uma limitação fundamental dos arrays primitivos?
+
+\vspace{0.5cm}
+
+\section*{Questão 6: Sistema de Senhas de Atendimento (Desafio)}
+Um hospital utiliza um sistema de fila de atendimento baseado em senhas numéricas. Devido a uma restrição do sistema legado, a fila é implementada com um \textbf{array primitivo de inteiros} de tamanho fixo. O sistema precisa lidar com situações do mundo real como: pacientes que desistem (saem da fila), pacientes prioritários que precisam ser encaixados em posições específicas, e a possibilidade de a fila lotar. Além disso, o administrador quer uma opção de \textbf{redimensionamento manual} caso a capacidade se esgote.
+
+\textbf{Requisitos:}
+\begin{itemize}
+    \item Crie uma classe \texttt{FilaDeSenhas} com:
+    \begin{itemize}
+        \item Um array \texttt{int[] senhas} com capacidade inicial de \textbf{5}.
+        \item Um atributo \texttt{int quantidade} para controlar o número real de senhas na fila.
+        \item Um atributo \texttt{int proximaSenha} (iniciando em 1) para gerar senhas sequenciais automaticamente.
+    \end{itemize}
+    \item Implemente \texttt{chamarProximaSenha()} — gera a próxima senha e a insere no \textbf{final} da fila. Se a fila estiver cheia, exiba ``Fila lotada!'' e \textbf{não} insira.
+    \item Implemente \texttt{encaixarPrioritario(int posicao)} — gera uma nova senha e a insere na posição indicada, deslocando os demais. Valide se há espaço e se a posição é válida.
+    \item Implemente \texttt{desistir(int posicao)} — remove a senha na posição informada, deslocando os elementos restantes para a esquerda.
+    \item Implemente \texttt{redimensionar(int novaCapacidade)} — cria um \textbf{novo} array com a nova capacidade, copia todos os elementos existentes para ele e substitui o array interno. Trate o caso em que a nova capacidade é menor que a quantidade atual de elementos.
+    \item Implemente \texttt{exibirFila()} para mostrar as senhas na ordem atual e a capacidade total.
+    \item Na classe \texttt{Main}, simule o seguinte cenário:
+    \begin{enumerate}
+        \item Chame 5 senhas normais (lotando a fila).
+        \item Tente chamar uma 6ª senha (deve mostrar ``Fila lotada!'').
+        \item Redimensione a fila para capacidade 10.
+        \item Encaixe um prioritário na posição 0.
+        \item Faça a senha da posição 3 desistir.
+        \item Exiba a fila final.
+    \end{enumerate}
+\end{itemize}
+
+\textbf{Pergunta Reflexiva:} O método \texttt{redimensionar} cria um novo array e copia todos os elementos um a um. Sabendo que arrays ocupam \textbf{blocos contíguos de memória}, explique por que o Java (e a maioria das linguagens) não pode simplesmente ``esticar'' o array original na memória. O que acontece com o array antigo após a cópia? Relacione sua resposta com o conceito de \textit{Garbage Collection} da JVM.
+
 \end{document}
