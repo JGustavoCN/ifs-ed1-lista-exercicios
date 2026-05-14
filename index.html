@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guia de Estudos | Estrutura de Dados I - IFS</title>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        :root {
+            --ifs-green: #32a041;
+            --ifs-green-dark: #277c32;
+            --ifs-red: #d92d20;
+            --primary: #101828;
+            --secondary: #475467;
+            --accent: #6366f1;
+            --bg: #f9fafb;
+            --surface: #ffffff;
+            --border: #eaecf0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* --- HEADER --- */
+        header {
+            background-color: var(--surface);
+            padding: 4rem 0;
+            border-bottom: 4px solid var(--ifs-green);
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        .logo-box {
+            margin-bottom: 2rem;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .logo-box img {
+            max-width: 250px;
+            height: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .logo-box img:hover {
+            transform: scale(1.02);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            letter-spacing: -0.025em;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 1.125rem;
+            color: var(--ifs-green-dark);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* --- SECTION NAVEGAÇÃO --- */
+        .nav-guide {
+            margin: 3rem 0;
+            background-color: #101828;
+            color: white;
+            padding: 2.5rem;
+            border-radius: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-info h2 {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-info p {
+            color: #94a3b8;
+            font-size: 1rem;
+        }
+
+        .folder-badge {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #fbbf24;
+        }
+
+        /* --- MAPA DE ASSUNTOS (CARDS) --- */
+        .subjects-section {
+            margin-bottom: 5rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 2.5rem;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .subjects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 2rem;
+        }
+
+        .subject-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 1.25rem;
+            padding: 2rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .subject-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            border-color: var(--ifs-green);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.25rem;
+        }
+
+        .subject-badge {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .card-title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .card-summary {
+            color: var(--secondary);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .gotcha-box {
+            background-color: #fff1f2;
+            border-left: 4px solid var(--ifs-red);
+            padding: 1.25rem;
+            border-radius: 0.75rem;
+        }
+
+        .gotcha-title {
+            color: var(--ifs-red);
+            font-weight: 700;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .gotcha-text {
+            font-size: 0.875rem;
+            color: #9f1239;
+            font-weight: 500;
+        }
+
+        /* --- IA EDUCATION --- */
+        .ia-section {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border: 1px solid #bbf7d0;
+            padding: 4rem 3rem;
+            border-radius: 2rem;
+            margin-bottom: 5rem;
+        }
+
+        .ia-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2rem;
+            margin-top: 2.5rem;
+        }
+
+        .ia-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        }
+
+        .ia-item i {
+            color: var(--ifs-green);
+            margin-bottom: 1rem;
+        }
+
+        .ia-item h4 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .ia-item p {
+            font-size: 0.875rem;
+            color: var(--secondary);
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            text-align: center;
+            padding-bottom: 5rem;
+            color: var(--secondary);
+            font-size: 0.9rem;
+        }
+
+        footer strong { color: var(--primary); }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 600px) {
+            .subjects-grid { grid-template-columns: 1fr; }
+            header h1 { font-size: 1.75rem; }
+            .nav-guide { flex-direction: column; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <div class="logo-box">
+                <img src="latex/geral-logo-ifs.png" alt="Instituto Federal de Sergipe">
+            </div>
+            <h1>Guia de Estudos - Estrutura de Dados I</h1>
+            <div style="margin-top: 1rem; border-top: 1px solid var(--border); padding-top: 1rem;">
+                <p style="font-size: 1.1rem; color: var(--ifs-green-dark); font-weight: 700; margin-bottom: 0.25rem;">
+                    Monitor: José Gustavo Correia Nascimento
+                </p>
+                <p style="font-size: 0.9rem; color: var(--secondary); font-weight: 500;">
+                    Orientador: Prof. Jose Solenir Lima Figueredo
+                </p>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <!-- SEÇÃO 1: NAVEGAÇÃO -->
+        <section class="nav-guide">
+            <div class="nav-icon">
+                <i data-lucide="compass" size="48" color="#6366f1"></i>
+            </div>
+            <div class="nav-info">
+                <h2>Como navegar neste repositório?</h2>
+                <p>
+                    As resoluções estão na pasta <span class="folder-badge">src/</span> organizadas por tema. 
+                    O documento LaTeX original com os enunciados está em <span class="folder-badge">latex/main.tex</span>.
+                </p>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 2: MAPA DE ASSUNTOS -->
+        <section class="subjects-section">
+            <h2 class="section-title"><i data-lucide="map"></i> Mapa de Assuntos & Gotchas</h2>
+            
+            <div class="subjects-grid">
+                
+                <!-- CARD 1: RECURSIVIDADE -->
+                <div class="subject-card">
+                    <div class="card-header">
+                        <span class="subject-badge">Questões 1 a 3</span>
+                        <i data-lucide="refresh-cw" size="20" color="#6366f1"></i>
+                    </div>
+                    <h3 class="card-title">Recursividade</h3>
+                    <p class="card-summary">O uso da pilha de chamadas (stack) para decompor problemas complexos em casos base e passos recursivos.</p>
+                    <div class="gotcha-box">
+                        <div class="gotcha-title"><i data-lucide="alert-circle" size="14"></i> GOTCHA DE MONITORIA</div>
+                        <p class="gotcha-text">Cuidado com a condição de parada! Se ela for inalcançável, você terá um <strong>StackOverflowError</strong>. Sempre garanta que o estado da variável mude em direção ao caso base.</p>
+                    </div>
+                </div>
+
+                <!-- CARD 2: ARRAY VS ARRAYLIST -->
+                <div class="subject-card">
+                    <div class="card-header">
+                        <span class="subject-badge">Questões 4 a 9</span>
+                        <i data-lucide="layout-grid" size="20" color="#6366f1"></i>
+                    </div>
+                    <h3 class="card-title">Array Primitivo vs ArrayList</h3>
+                    <p class="card-summary">Comparação entre alocação estática (memória fixa) e o redimensionamento dinâmico da API Java Collections.</p>
+                    <div class="gotcha-box">
+                        <div class="gotcha-title"><i data-lucide="alert-circle" size="14"></i> GOTCHA DE MONITORIA</div>
+                        <p class="gotcha-text">Arrays primitivos são blocos contíguos de tamanho fixo. No ArrayList, inserir ou remover no índice 0 exige um <strong>shift de O(n)</strong> em todos os outros elementos.</p>
+                    </div>
+                </div>
+
+                <!-- CARD 3: GENERICS -->
+                <div class="subject-card">
+                    <div class="card-header">
+                        <span class="subject-badge">Questões 10 a 12</span>
+                        <i data-lucide="box" size="20" color="#6366f1"></i>
+                    </div>
+                    <h3 class="card-title">Generics & Type Safety</h3>
+                    <p class="card-summary">Parametrização de tipos para evitar castings explícitos e erros de tempo de execução.</p>
+                    <div class="gotcha-box">
+                        <div class="gotcha-title"><i data-lucide="alert-circle" size="14"></i> GOTCHA DE MONITORIA</div>
+                        <p class="gotcha-text">Lembre-se do <strong>Type Erasure</strong>: o Java remove as informações de tipo genérico em tempo de execução. O compilador usa o Generics apenas para garantir segurança ANTES de rodar.</p>
+                    </div>
+                </div>
+
+                <!-- CARD 4: LISTAS ENCADEADAS -->
+                <div class="subject-card">
+                    <div class="card-header">
+                        <span class="subject-badge">Questões 13 a 15</span>
+                        <i data-lucide="link" size="20" color="#6366f1"></i>
+                    </div>
+                    <h3 class="card-title">Listas Simples Encadeadas</h3>
+                    <p class="card-summary">Estruturas onde cada nó conhece apenas o seu sucessor, permitindo alocação dinâmica não-contígua.</p>
+                    <div class="gotcha-box">
+                        <div class="gotcha-title"><i data-lucide="alert-circle" size="14"></i> GOTCHA DE MONITORIA</div>
+                        <p class="gotcha-text">O maior risco é perder a referência da cabeça (head). Se você atualizar o ponteiro head sem salvar o próximo, você causará um <strong>NullPointerException</strong> e perderá toda a lista.</p>
+                    </div>
+                </div>
+
+                <!-- CARD 5: LISTAS DUPLAS -->
+                <div class="subject-card">
+                    <div class="card-header">
+                        <span class="subject-badge">Questões 16 a 18</span>
+                        <i data-lucide="arrow-left-right" size="20" color="#6366f1"></i>
+                    </div>
+                    <h3 class="card-title">Listas Duplamente Encadeadas</h3>
+                    <p class="card-summary">Uso de ponteiros bi-direcionais (prev/next) e nós sentinelas para navegação fluida em ambos os sentidos.</p>
+                    <div class="gotcha-box">
+                        <div class="gotcha-title"><i data-lucide="alert-circle" size="14"></i> GOTCHA DE MONITORIA</div>
+                        <p class="gotcha-text">Ao inserir no meio, você precisa atualizar <strong>4 ponteiros</strong>. A ordem dessas atribuições é crítica: se você desconectar um nó antes de salvar seu vizinho, a lista será quebrada.</p>
+                    </div>
+                </div>
+
+                <!-- CARD 6: LISTAS CIRCULARES -->
+                <div class="subject-card">
+                    <div class="card-header">
+                        <span class="subject-badge">Questões 19 a 24</span>
+                        <i data-lucide="repeat" size="20" color="#6366f1"></i>
+                    </div>
+                    <h3 class="card-title">Listas Circulares</h3>
+                    <p class="card-summary">Estruturas onde o último nó aponta de volta para o primeiro, eliminando o valor nulo do final da lista.</p>
+                    <div class="gotcha-box">
+                        <div class="gotcha-title"><i data-lucide="alert-circle" size="14"></i> GOTCHA DE MONITORIA</div>
+                        <p class="gotcha-text">Loops infinitos! Como não há null, o loop <code>while(atual != null)</code> nunca para. Use uma referência inicial (ex: <code>head</code>) e pare quando <code>atual.proximo == head</code>.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SEÇÃO 3: IA NOS ESTUDOS -->
+        <section class="ia-section">
+            <h2 class="section-title"><i data-lucide="sparkles"></i> Como usar IA para aprender (e não copiar)</h2>
+            <p style="text-align: center; color: var(--secondary);">Integrando Inteligência Artificial no seu fluxo de estudos de forma ética e eficiente.</p>
+            
+            <div class="ia-grid">
+                <div class="ia-item">
+                    <i data-lucide="terminal" size="24"></i>
+                    <h4>Depuração Ativa</h4>
+                    <p>Cole o erro (stacktrace) e pergunte: "Por que este erro acontece nesta linha?". Não peça o código corrigido, peça a explicação.</p>
+                </div>
+                <div class="ia-item">
+                    <i data-lucide="test-tube" size="24"></i>
+                    <h4>Casos de Teste</h4>
+                    <p>Peça: "Gere 5 cenários de teste para uma inserção em lista circular, incluindo casos de borda como lista vazia ou com um elemento".</p>
+                </div>
+                <div class="ia-item">
+                    <i data-lucide="book" size="24"></i>
+                    <h4>NotebookLM</h4>
+                    <p>Suba os PDFs das aulas do Prof. Solenir no NotebookLM para tirar dúvidas conceituais antes de começar a codificar.</p>
+                </div>
+                <div class="ia-item">
+                    <i data-lucide="message-square" size="24"></i>
+                    <h4>Método Socrático</h4>
+                    <p>Instrua a IA: "Atue como meu professor de ED1. Não me dê a resposta, faça perguntas que me ajudem a chegar na lógica da busca binária".</p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>Desenvolvido para fins educacionais - <strong>Monitoria ED1</strong></p>
+        <p>Instituto Federal de Sergipe | Campus Lagarto | 2026</p>
+    </footer>
+
+    <script>
+        // Inicializa ícones do Lucide
+        lucide.createIcons();
+    </script>
+</body>
+</html>
