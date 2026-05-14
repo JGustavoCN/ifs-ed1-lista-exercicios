@@ -1,7 +1,6 @@
 // src/tema04_generics/q3_desafio/Main.java
 package tema04_generics.q3_desafio;
 
-import java.util.ArrayList;
 
 /**
  * Questão 12 — Inventário de Loja Virtual com Limites de Tipo (Desafio)

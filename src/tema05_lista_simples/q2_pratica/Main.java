@@ -53,6 +53,9 @@ public class Main {
         System.out.println("\n--- Passo 4: Finalizando o primeiro processo ---\n");
 
         Processo finalizado = lista.finalizarPrimeiro();
+        if (finalizado != null) {
+            System.out.println("   >>> Processo finalizado: " + finalizado);
+        }
 
         // ============================================================
         // 5. Exibir lista atualizada e contagem

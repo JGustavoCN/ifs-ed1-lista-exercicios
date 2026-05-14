@@ -49,4 +49,8 @@ public class PlayerPremium {
     public Musica getTocando() {
         return musicaAtual != null ? musicaAtual.dado : null;
     }
+
+    public int getQuantidade() {
+        return total;
+    }
 }

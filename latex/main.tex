@@ -10,6 +10,8 @@
 \usepackage{xcolor}
 \usepackage{tikz}
 \usepackage{eso-pic}
+\usepackage{enumitem}
+\usepackage{titlesec}
 \usepackage{listings} % Pacote para formatar os códigos Java
 
 % ==========================================
@@ -26,7 +28,7 @@
     keywordstyle=\color{magenta},
     numberstyle=\tiny\color{codegray},
     stringstyle=\color{codepurple},
-    basicstyle=\ttfamily\footnotesize,
+    basicstyle=\ttfamily\scriptsize,
     breakatwhitespace=false,         
     breaklines=true,                 
     captionpos=b,                    
@@ -40,6 +42,10 @@
     language=Java
 }
 \lstset{style=mystyle}
+
+% --- CONFIGURAÇÕES DE ESPAÇAMENTO ---
+\titlespacing*{\section}{0pt}{8pt}{4pt}
+\setlist[itemize]{itemsep=0pt, parsep=0pt, topsep=4pt}
 
 % ==========================================
 %        CAMPOS EDITÁVEIS (FORMULÁRIO)
@@ -95,17 +101,17 @@ rectangle
     % Espaço vazio para equilibrar a logo da esquerda
 \end{minipage}
 
-\vspace{0.7cm}
+\vspace{0.3cm}
 
 % --- INFORMAÇÕES DA DISCIPLINA ---
 \noindent
 \textbf{Professor(a):} \professor \hfill \textbf{Disciplina:} \disciplina \\[0.2cm]
 \noindent
-\textbf{Monitor(a):} \monitor \hfill \textbf{Data:} \data \\[0.3cm]
+\textbf{Monitor(a):} \monitor \hfill \textbf{Data:} Maio/2026 \\[0.3cm]
 \noindent
 \textbf{Estudante:} \estudante
 
-\vspace{0.5cm}
+\vspace{0.2cm}
 
 % --- TÍTULO ---
 \begin{center}
@@ -131,7 +137,7 @@ Em uma fábrica de peças automotivas, os inspetores de qualidade registram a qu
 
 \textbf{Pergunta Reflexiva:} Explique, com suas palavras, o que acontece com a pilha de execução (\textit{Call Stack}) do Java a cada nova chamada recursiva do método \texttt{somarDefeitos}. Como as variáveis locais e o estado de cada chamada são mantidos em memória até que o caso base seja atingido?
 
-\vspace{0.5cm}
+\vspace{0.2cm}
 
 \section*{Questão 2: Validador de Códigos de Segurança (Prática)}
 Um sistema de cofre digital utiliza códigos de acesso simétricos para liberar a abertura das portas. Um código é considerado válido apenas se for um palíndromo perfeito (ou seja, lido da mesma forma da esquerda para a direita e da direita para a esquerda, ignorando espaços e diferenças entre maiúsculas e minúsculas).
@@ -147,7 +153,7 @@ Um sistema de cofre digital utiliza códigos de acesso simétricos para liberar 
 
 \textbf{Pergunta Reflexiva:} Em implementações recursivas como esta, a definição correta do caso base é vital. O que ocorreria nos bastidores (em termos de consumo de recursos e comportamento da JVM) se o caso base nunca fosse alcançado? Justifique.
 
-\vspace{0.5cm}
+\vspace{0.2cm}
 
 \section*{Questão 3: Rastreador de Transações Financeiras (Desafio)}
 Um banco processa milhões de transações diárias. Para otimizar o sistema de auditoria e detecção de fraudes, os IDs das transações (números inteiros) são armazenados em um array estritamente ordenado de forma crescente. Sua missão é implementar um motor de busca de alto desempenho para localizar rapidamente o índice de uma transação suspeita, seguindo o paradigma de divisão e conquista.
@@ -165,14 +171,6 @@ Um banco processa milhões de transações diárias. Para otimizar o sistema de 
 % ==========================================
 %     TEMA 2: ARRAY PRIMITIVO (TAMANHO FIXO)
 % ==========================================
-\newpage
-
-\noindent\rule{\textwidth}{0.8pt}
-\begin{center}
-    \large\textbf{TEMA 2 — ARRAY PRIMITIVO: ALOCAÇÃO CONTÍGUA E TAMANHO FIXO}
-\end{center}
-\noindent\rule{\textwidth}{0.8pt}
-\vspace{0.4cm}
 
 \section*{Questão 4: Controle de Vagas de Estacionamento (Conceito)}
 Uma empresa de mobilidade urbana opera um estacionamento inteligente com um número fixo de vagas numeradas (de 0 a $N-1$). O sistema mantém um \textbf{array primitivo de Strings} de tamanho fixo, onde cada posição armazena a placa do veículo estacionado ou \texttt{null} se a vaga estiver livre. Você deve implementar um painel de controle básico para esse estacionamento.
@@ -188,7 +186,7 @@ Uma empresa de mobilidade urbana opera um estacionamento inteligente com um núm
 
 \textbf{Pergunta Reflexiva:} O array de vagas foi criado com tamanho fixo de 8 posições. Suponha que o estacionamento precise expandir para 12 vagas. Explique, do ponto de vista da alocação de memória contígua, por que \textbf{não é possível} simplesmente ``aumentar'' o array existente. Qual seria a estratégia necessária para acomodar as novas vagas e qual o custo computacional envolvido nessa operação?
 
-\vspace{0.5cm}
+\vspace{0.2cm}
 
 \section*{Questão 5: Gerenciador de Playlist Musical (Prática)}
 Uma plataforma de streaming de música permite que o usuário crie playlists com um limite máximo de músicas. Internamente, a playlist é representada por um \textbf{array primitivo de Strings} de capacidade fixa e uma variável \texttt{tamanho} que controla quantas músicas foram efetivamente inseridas. Você deve construir um gerenciador completo que demonstre as operações de inserção e remoção e seus custos.
@@ -209,7 +207,7 @@ Uma plataforma de streaming de música permite que o usuário crie playlists com
 
 \textbf{Pergunta Reflexiva:} Ao inserir uma música na posição 0 de uma playlist que já contém $N$ músicas, todos os $N$ elementos precisam ser deslocados uma posição para a direita. Qual é a complexidade de tempo (Big-O) dessa operação no \textbf{pior caso}? Compare com a inserção no final. Por que essa diferença é uma limitação fundamental dos arrays primitivos?
 
-\vspace{0.5cm}
+\vspace{0.2cm}
 
 \section*{Questão 6: Sistema de Senhas de Atendimento (Desafio)}
 Um hospital utiliza um sistema de fila de atendimento baseado em senhas numéricas. Devido a uma restrição do sistema legado, a fila é implementada com um \textbf{array primitivo de inteiros} de tamanho fixo. O sistema precisa lidar com situações do mundo real como: pacientes que desistem (saem da fila), pacientes prioritários que precisam ser encaixados em posições específicas, e a possibilidade de a fila lotar. Além disso, o administrador quer uma opção de \textbf{redimensionamento manual} caso a capacidade se esgote.
@@ -243,14 +241,6 @@ Um hospital utiliza um sistema de fila de atendimento baseado em senhas numéric
 % ==========================================
 %     TEMA 3: ARRAYLIST (REDIMENSIONAMENTO DINÂMICO)
 % ==========================================
-\newpage
-
-\noindent\rule{\textwidth}{0.8pt}
-\begin{center}
-    \large\textbf{TEMA 3 — ARRAYLIST: REDIMENSIONAMENTO DINÂMICO E API COLLECTIONS}
-\end{center}
-\noindent\rule{\textwidth}{0.8pt}
-\vspace{0.4cm}
 
 \section*{Questão 7: Registro de Check-ins em Museu (Conceito)}
 Um museu interativo recém-inaugurado quer digitalizar o registro de visitantes. A cada dia, um número completamente imprevisível de pessoas pode aparecer: desde 5 em uma segunda-feira chuvosa até 300 em um feriado nacional. Usar um array de tamanho fixo seria impraticável, pois o museu não sabe antecipadamente quantos visitantes receberá. Sua tarefa é utilizar um \texttt{ArrayList<String>} para criar um sistema flexível de check-in.
@@ -267,7 +257,7 @@ Um museu interativo recém-inaugurado quer digitalizar o registro de visitantes.
 
 \textbf{Pergunta Reflexiva:} Um \texttt{ArrayList} internamente utiliza um array primitivo como estrutura de armazenamento. Sabendo que o \texttt{ArrayList} possui uma \textbf{capacidade inicial padrão de 10 posições} no Java, o que acontece nos bastidores da JVM quando você insere o 11º visitante? Descreva o processo de \textbf{redimensionamento automático} (criação de novo array, cópia de elementos, fator de crescimento) e explique por que, apesar do custo pontual dessa operação, o tempo \textbf{amortizado} de inserção continua sendo $O(1)$.
 
-\vspace{0.5cm}
+\vspace{0.2cm}
 
 \section*{Questão 8: Gerenciador de Encomendas de Transportadora (Prática)}
 Uma transportadora regional precisa de um sistema para gerenciar a lista de encomendas pendentes do dia. O volume de entregas varia drasticamente: em dias comuns são 20 pacotes, mas em datas promocionais (Black Friday, Natal) podem chegar mais de 500. O sistema deve permitir adicionar encomendas conforme chegam, consultar encomendas por posição, localizar uma encomenda pelo código de rastreio e remover encomendas que forem despachadas.
@@ -298,7 +288,7 @@ Uma transportadora regional precisa de um sistema para gerenciar a lista de enco
 
 \textbf{Pergunta Reflexiva:} O método \texttt{add(int index, E element)} do \texttt{ArrayList} permite inserir em qualquer posição válida. Internamente, o \texttt{ArrayList} usa o método nativo \texttt{System.arraycopy()} para deslocar os elementos subsequentes. Compare o custo dessa operação com a inserção que você implementou manualmente com \texttt{for} no Tema 2 (Array Primitivo). Existe diferença de complexidade Big-O? Qual a vantagem real que o \texttt{ArrayList} oferece em relação ao array primitivo, considerando o redimensionamento?
 
-\vspace{0.5cm}
+\vspace{0.2cm}
 
 \section*{Questão 9: Filtro de Alertas em Sistema de Monitoramento IoT (Desafio)}
 Uma fábrica possui sensores IoT espalhados em diversas máquinas. Cada sensor gera alertas com um nível de severidade: \texttt{"INFO"}, \texttt{"WARNING"} ou \texttt{"CRITICAL"}. Ao final de cada turno, o operador precisa \textbf{filtrar} a lista de alertas removendo todos os alertas de nível \texttt{"INFO"} (considerados irrelevantes) para gerar um relatório apenas com os alertas que exigem atenção.
@@ -321,9 +311,9 @@ O grande desafio é: como remover elementos de um \texttt{ArrayList} \textbf{dur
     \item Na classe \texttt{Main}, popule o painel com pelo menos \textbf{10 alertas} (misturando os três níveis de severidade).
     \item Implemente \textbf{três estratégias distintas de remoção} para remover os alertas \texttt{"INFO"}, cada uma em uma cópia separada da lista original:
     \begin{itemize}
-        \item \textbf{Estratégia A (INCORRETA):} Utilize um \texttt{for} tradicional com índice (\texttt{for (int i = 0; i < lista.size(); i++)}) e \texttt{remove(i)} dentro do laço. Execute e observe o comportamento — elementos serão \textbf{pulados}.
-        \item \textbf{Estratégia B (CORRETA):} Utilize um \texttt{Iterator<Alerta>} explícito com \texttt{iterator.hasNext()}, \texttt{iterator.next()} e \texttt{iterator.remove()} para remoção segura.
-        \item \textbf{Estratégia C (MODERNA):} Utilize o método \texttt{removeIf()} com uma expressão lambda para remover os alertas de forma concisa e segura.
+        \item \textbf{Estratégia A (INCORRETA):} Use um \texttt{for} tradicional com índice (\texttt{for (int i = 0; i < lista.size(); i++)}) e \texttt{remove(i)}. Observe como elementos são pulados.
+        \item \textbf{Estratégia B (CORRETA):} Utilize um \texttt{Iterator<Alerta>} explícito com os métodos \texttt{hasNext()}, \texttt{next()} e \texttt{remove()} para remoção segura.
+        \item \textbf{Estratégia C (MODERNA):} Utilize o método \texttt{removeIf()} com expressão lambda para remover alertas de forma concisa e segura.
     \end{itemize}
     \item Após cada estratégia, exiba os alertas remanescentes e compare os resultados.
 \end{itemize}
@@ -333,15 +323,6 @@ O grande desafio é: como remover elementos de um \texttt{ArrayList} \textbf{dur
 % ==========================================
 %     TEMA 4: GENERICS (TYPE SAFETY)
 % ==========================================
-\newpage
-
-\noindent\rule{\textwidth}{0.8pt}
-\begin{center}
-    \large\textbf{TEMA 4 — GENERICS: SEGURANÇA DE TIPOS E ELIMINAÇÃO DE CASTINGS}
-\end{center}
-\noindent\rule{\textwidth}{0.8pt}
-\vspace{0.4cm}
-
 \section*{Questão 10: Laboratório de Análises Clínicas (Conceito)}
 Um laboratório de análises clínicas armazena amostras biológicas em tubos de ensaio. Cada tubo pode conter materiais de tipos diferentes: uma amostra de sangue é representada por uma \texttt{String} (o tipo sanguíneo, ex: ``O+''), uma contagem de leucócitos por um \texttt{Integer} e uma taxa de glicose por um \texttt{Double}. O sistema legado do laboratório utilizava um \textbf{array de \texttt{Object}} para guardar qualquer tipo de amostra, exigindo \textit{castings} explícitos e arriscando erros em tempo de execução (\texttt{ClassCastException}).
 
@@ -372,7 +353,7 @@ Sua missão é demonstrar o \textbf{antes e depois}: primeiro, reproduzir os pro
 
 \textbf{Pergunta Reflexiva:} Você observou que, com Generics, o compilador Java impede a inserção de tipos incompatíveis \textbf{antes mesmo} de o programa ser executado. Porém, nos bastidores, o Java aplica um mecanismo chamado \textbf{Type Erasure}: durante a compilação, todas as informações de tipo genérico são removidas, e \texttt{T} é substituído por \texttt{Object} no bytecode final. Sabendo disso, explique: se o bytecode compilado de \texttt{Tubo<String>} e \texttt{Tubo<Integer>} é \textbf{idêntico} (ambos usam \texttt{Object} internamente), \textit{como} o compilador consegue rejeitar o código incorreto antes da compilação? Qual é a vantagem prática dessa abordagem para o desenvolvedor?
 
-\vspace{0.5cm}
+\vspace{0.2cm}
 
 \section*{Questão 11: Cofre Digital Parametrizado (Prática)}
 Uma empresa de segurança patrimonial oferece cofres digitais inteligentes para seus clientes. Cada cofre pode guardar \textbf{um único tipo} de item valioso: alguns clientes guardam documentos (representados como \texttt{String}), outros guardam quantias em dinheiro (\texttt{Double}) e outros guardam códigos de acesso (\texttt{Integer}). O sistema deve ser parametrizado com Generics para que cada cofre tenha segurança de tipos: um cofre de documentos não pode acidentalmente receber uma quantia monetária.
@@ -387,11 +368,11 @@ Uma empresa de segurança patrimonial oferece cofres digitais inteligentes para 
     \end{itemize}
     \item Implemente os seguintes métodos:
     \begin{itemize}
-        \item \texttt{boolean guardar(T item)} — adiciona um item ao cofre. Retorna \texttt{false} se o cofre estiver cheio, exibindo uma mensagem de ``Cofre lotado!''. Não permita itens duplicados (\texttt{contains()}).
-        \item \texttt{T recuperar(int posicao)} — retorna o item na posição informada. Trate \texttt{IndexOutOfBoundsException} e retorne \texttt{null} em caso de posição inválida.
-        \item \texttt{boolean contem(T item)} — verifica se um item específico está no cofre usando \texttt{contains()}.
-        \item \texttt{T remover(int posicao)} — remove e retorna o item na posição indicada. Trate exceções.
-        \item \texttt{void listarConteudo()} — exibe todos os itens armazenados, o nome do dono e quantas posições ainda estão disponíveis.
+        \item \texttt{boolean guardar(T item)} — adiciona um item. Retorna \texttt{false} se cheio. Não permita duplicatas (\texttt{contains()}).
+        \item \texttt{T recuperar(int posicao)} — retorna o item na posição informada. Trate \textit{IndexOutOfBoundsException}.
+        \item \texttt{boolean contem(T item)} — verifica se um item está no cofre via \texttt{contains()}.
+        \item \texttt{T remover(int posicao)} — remove e retorna o item na posição indicada. Trate as exceções.
+        \item \texttt{void listarConteudo()} — exibe os itens, o dono e as vagas disponíveis.
     \end{itemize}
     \item Na classe \texttt{Main}, crie e demonstre o funcionamento de \textbf{três cofres} distintos:
     \begin{enumerate}
@@ -403,7 +384,7 @@ Uma empresa de segurança patrimonial oferece cofres digitais inteligentes para 
 
 \textbf{Pergunta Reflexiva:} Ao compilar o seu programa, o Java aplica \textbf{Type Erasure} e substitui o parâmetro \texttt{T} da classe \texttt{Cofre<T>} por \texttt{Object}. Isso significa que, no bytecode final, \textbf{só existe uma única classe} \texttt{Cofre} — e não três versões separadas (\texttt{Cofre\_String}, \texttt{Cofre\_Double}, \texttt{Cofre\_Integer}) como seria em linguagens como C++ com templates. Explique por que essa decisão de design da linguagem Java (ter uma única classe compartilhada no bytecode) impede o uso de certas operações em tempo de execução, como \texttt{new T()} ou \texttt{instanceof T}. Dica: se \texttt{T} vira \texttt{Object} no bytecode, o que o programa ``saberia'' sobre \texttt{T} durante a execução?
 
-\vspace{0.5cm}
+\vspace{0.2cm}
 
 \section*{Questão 12: Inventário de Loja Virtual com Limites de Tipo (Desafio)}
 Uma loja virtual vende diferentes categorias de produtos: eletrônicos, livros e roupas. Todos os produtos compartilham atributos em comum (nome, preço), mas cada categoria possui dados específicos. O sistema de inventário precisa de uma estrutura genérica que funcione \textbf{apenas com subtipos de \texttt{Produto}} — rejeitando qualquer outro tipo (como \texttt{String} ou \texttt{Integer}) em tempo de compilação. Além disso, a equipe de relatórios precisa de um método utilitário que consiga calcular o valor total de \textbf{qualquer lista de produtos}, independentemente da categoria, usando \textbf{Wildcards}.
@@ -433,32 +414,21 @@ Uma loja virtual vende diferentes categorias de produtos: eletrônicos, livros e
     \end{itemize}
     \item Crie uma classe utilitária \texttt{RelatorioUtil} com um método \textbf{estático} que use \textbf{Wildcards}:
     \begin{itemize}
-        \item \texttt{static double calcularValorTotal(ArrayList<? extends Produto> produtos)} — percorre qualquer lista de subtipos de \texttt{Produto} e retorna a soma dos preços.
+        \item \texttt{static double calcularValorTotal}\\ \texttt{(ArrayList<? extends Produto> lista)} — retorna a soma dos preços.
     \end{itemize}
     \item Na classe \texttt{Main}, demonstre:
     \begin{enumerate}
-        \item Crie um \texttt{Inventario<Eletronico>} e adicione 3 eletrônicos.
-        \item Crie um \texttt{Inventario<Livro>} e adicione 3 livros.
-        \item Crie um \texttt{Inventario<Roupa>} e adicione 2 roupas.
-        \item Liste o conteúdo de cada inventário.
-        \item Utilize \texttt{RelatorioUtil.calcularValorTotal()} para calcular e exibir o valor total de \textbf{cada} inventário separadamente — demonstrando que o método aceita \texttt{ArrayList<Eletronico>}, \texttt{ArrayList<Livro>} e \texttt{ArrayList<Roupa>} graças ao Wildcard.
-        \item Demonstre (em um comentário explicativo) que tentar criar \texttt{Inventario<String>} causa erro de compilação por violar o limite \texttt{T extends Produto}.
+        \item Crie um \texttt{Inventario<Eletronico>} e um \texttt{Inventario<Livro>}.
+        \item Utilize \texttt{RelatorioUtil.calcularValorTotal()} para exibir o valor total de cada inventário — demonstrando que o método aceita os diferentes tipos de \textit{ArrayList} via Wildcard.
+        \item Comente o que ocorre ao tentar criar um \texttt{Inventario<String>}.
     \end{enumerate}
 \end{itemize}
 
-\textbf{Pergunta Reflexiva:} O método \texttt{calcularValorTotal} aceita \texttt{ArrayList<? extends Produto>} em vez de \texttt{ArrayList<Produto>}. Explique por que \texttt{ArrayList<Eletronico>} \textbf{NÃO} é subtipo de \texttt{ArrayList<Produto>} em Java (conceito de \textbf{invariância} de tipos genéricos), e como o Wildcard \texttt{? extends} resolve esse problema. Além disso, sabendo que o Java aplica \textbf{Type Erasure}, o que acontece com \texttt{<T extends Produto>} durante a compilação: \texttt{T} é substituído por \texttt{Object} ou por \texttt{Produto}? Justifique.
+\textbf{Pergunta Reflexiva:} Por que \texttt{ArrayList<Eletronico>} não é subtipo de \texttt{ArrayList<Produto>}? Como o Wildcard resolve essa invariância? No \textit{Type Erasure}, o \texttt{T} de \texttt{<T extends Produto>} vira \texttt{Object} ou \texttt{Produto}?
 
 % ==========================================
 %     TEMA 5: LISTA SIMPLESMENTE ENCADEADA (SINGLY LINKED LIST)
 % ==========================================
-\newpage
-
-\noindent\rule{\textwidth}{0.8pt}
-\begin{center}
-    \large\textbf{TEMA 5 — LISTA SIMPLESMENTE ENCADEADA: ALOCAÇÃO NÃO-CONTÍGUA E PONTEIROS}
-\end{center}
-\noindent\rule{\textwidth}{0.8pt}
-\vspace{0.4cm}
 
 \section*{Questão 13: Correia Transportadora de Fábrica (Conceito)}
 Uma fábrica de embalagens possui uma correia transportadora onde as caixas são processadas uma a uma, na ordem de chegada. Cada caixa carrega um código de identificação (\texttt{String}) e está fisicamente ligada à próxima caixa da linha por um gancho mecânico. Diferentemente de uma esteira com slots fixos (análoga a um array), a correia pode receber um número ilimitado de caixas pois não exige posições pré-alocadas — basta engatar uma nova caixa ao final da sequência.
@@ -495,7 +465,7 @@ Sua tarefa é modelar essa correia transportadora utilizando uma \textbf{Lista S
 
 \textbf{Pergunta Reflexiva:} Observe que, para adicionar uma caixa no \textbf{início} da correia, bastou atualizar dois ponteiros (operação $O(1)$), enquanto para adicionar no \textbf{final} foi necessário percorrer toda a lista do início até o último nó (operação $O(n)$). Compare essa situação com a de um array primitivo, onde a inserção no final é $O(1)$ (se houver espaço) mas a inserção no início exige deslocar todos os elementos. Qual estrutura é mais eficiente para inserções frequentes no \textbf{início} dos dados? Justifique com base no conceito de alocação contígua versus não-contígua em memória.
 
-\vspace{0.5cm}
+\vspace{0.2cm}
 
 \section*{Questão 14: Gerenciador de Processos de Sistema Operacional (Prática)}
 Um sistema operacional simplificado mantém uma lista de processos em execução. Cada processo possui um \texttt{int pid} (identificador único) e uma \texttt{String nome} (ex: ``navegador'', ``editor''). Os processos são gerenciados em uma \textbf{Lista Simplesmente Encadeada}, permitindo que o S.O. inicie (insira) e finalize (remova) processos dinamicamente sem se preocupar com capacidade fixa.
@@ -528,7 +498,7 @@ Um sistema operacional simplificado mantém uma lista de processos em execução
 
 \textbf{Pergunta Reflexiva:} Na operação \texttt{iniciarProcessoNoFim}, você precisou percorrer \textbf{todos} os nós da lista para encontrar o último. Em uma lista com 1 milhão de processos, essa travessia custaria $O(n)$ acessos à memória. Qual modificação estrutural na classe \texttt{ListaDeProcessos} eliminaria esse custo, tornando a inserção no final também $O(1)$? Descreva essa modificação e explique quais métodos precisariam ser ajustados para manter a consistência do novo ponteiro.
 
-\vspace{0.5cm}
+\vspace{0.2cm}
 
 \section*{Questão 15: Central de Ocorrências Policiais (Desafio)}
 Uma delegacia de polícia registra boletins de ocorrência (B.O.) em um sistema legado baseado em uma \textbf{Lista Simplesmente Encadeada}. Cada B.O. possui um \texttt{int numero} (número do boletim, único), uma \texttt{String tipo} (ex: ``Furto'', ``Acidente'', ``Agressão'') e uma \texttt{String descricao} (breve relato). O sistema precisa suportar operações de busca e remoção de B.O.s no \textbf{meio} da lista — situações que exigem cuidado redobrado para evitar \texttt{NullPointerException} durante a travessia dos ponteiros.
@@ -569,14 +539,6 @@ Uma delegacia de polícia registra boletins de ocorrência (B.O.) em um sistema 
 % ==========================================
 %     TEMA 6: LISTA DUPLAMENTE ENCADEADA (DOUBLY LINKED LIST)
 % ==========================================
-\newpage
-
-\noindent\rule{\textwidth}{0.8pt}
-\begin{center}
-    \large\textbf{TEMA 6 — LISTA DUPLAMENTE ENCADEADA: NAVEGAÇÃO BIDIRECIONAL E SENTINELAS}
-\end{center}
-\noindent\rule{\textwidth}{0.8pt}
-\vspace{0.4cm}
 
 \section*{Questão 16: Histórico de Navegação de Internet (Conceito)}
 Os navegadores modernos utilizam uma estrutura de \textbf{Lista Duplamente Encadeada} para gerenciar o histórico de abas. Isso permite que o usuário navegue para frente e para trás de forma eficiente. Diferente da lista simples, cada nó aqui possui uma referência para o nó anterior (\texttt{prev}) e para o próximo (\texttt{next}). Para simplificar a lógica de borda (lista vazia ou com um elemento), utilizaremos a estratégia de \textbf{Nós Sentinelas} (\texttt{header} e \texttt{trailer}).
@@ -605,7 +567,7 @@ Os navegadores modernos utilizam uma estrutura de \textbf{Lista Duplamente Encad
 
 \textbf{Pergunta Reflexiva:} Em uma Lista Duplamente Encadeada, cada nó armazena uma referência adicional (\texttt{prev}), o que aumenta o consumo de memória RAM em comparação com uma Lista Simples. Explique qual é a vantagem algorítmica fundamental desse "custo extra" ao realizar a operação de \textbf{remoção do último elemento} da lista. Por que na lista simples essa operação é $O(n)$ e na dupla ela pode ser $O(1)$?
 
-\vspace{0.5cm}
+\vspace{0.2cm}
 
 \section*{Questão 17: Sistema Undo/Redo de Editor de Texto (Prática)}
 Um editor de texto armazena as ações do usuário (digitar, apagar, formatar) em uma Lista Duplamente Encadeada. Um ponteiro chamado \texttt{cursorAtual} indica em qual estado o editor se encontra. Ao clicar em "Desfazer" (Undo), o cursor move-se para o nó anterior. Ao clicar em "Refazer" (Redo), move-se para o próximo. Se o usuário realizar uma \textbf{nova ação} estando no meio do histórico, todos os estados à frente do cursor devem ser descartados.
@@ -626,7 +588,7 @@ Um editor de texto armazena as ações do usuário (digitar, apagar, formatar) e
 
 \textbf{Pergunta Reflexiva:} O descarte dos nós à frente do cursor ao realizar uma nova ação após um Undo é essencial para manter a consistência lógica. O que acontece com esses nós descartados na memória do computador, considerando que o Java possui um \textit{Garbage Collector}? Como a ausência de referências (ponteiros) para esses nós influencia esse processo?
 
-\vspace{0.5cm}
+\vspace{0.2cm}
 
 \section*{Questão 18: Playlist com Reordenação Inteligente (Desafio)}
 Uma plataforma de música permite que o usuário reordene sua playlist. O desafio técnico consiste em inserir uma música no \textbf{meio} da lista, entre dois nós já existentes (A e B). Isso exige a manipulação coordenada de \textbf{quatro ponteiros}: os dois do novo nó, o \texttt{proximo} do nó A e o \texttt{anterior} do nó B.
@@ -634,11 +596,10 @@ Uma plataforma de música permite que o usuário reordene sua playlist. O desafi
 \textbf{Requisitos:}
 \begin{itemize}
     \item Implemente uma classe \texttt{PlaylistDupla} com sentinelas.
-    \item Implemente o método \texttt{inserirEntre(String musicaNova, String musicaA, String musicaB)}:
+    \item Implemente o método \texttt{inserirEntre(String novo, String A, String B)}:
     \begin{itemize}
-        \item Localize os nós que contêm \texttt{musicaA} e \texttt{musicaB}.
-        \item Valide se B é realmente o sucessor de A.
-        \item Crie o novo nó e realize a "amarração quádrupla" de ponteiros para inseri-lo no meio.
+        \item Localize os nós A e B e valide se B é o sucessor de A.
+        \item Realize a "amarração quádrupla" de ponteiros para inserir o novo nó.
     \end{itemize}
     \item Implemente um método \texttt{removerMusica(String nome)} que ajuste os ponteiros dos vizinhos para "fechar o buraco" na lista.
     \item Na classe \texttt{Main}, crie a playlist: [M1, M3]. Insira M2 entre M1 e M3. Remova M1 e verifique se M2 se tornou a nova primeira música (sucessor do \texttt{header}).
@@ -649,15 +610,6 @@ Uma plataforma de música permite que o usuário reordene sua playlist. O desafi
 % ==========================================
 %     TEMA 7: LISTA CIRCULAR SIMPLESMENTE ENCADEADA
 % ==========================================
-\newpage
-
-\noindent\rule{\textwidth}{0.8pt}
-\begin{center}
-    \large\textbf{TEMA 7 — LISTA CIRCULAR: ESTRUTURAS CÍCLICAS E PONTEIRO TAIL}
-\end{center}
-\noindent\rule{\textwidth}{0.8pt}
-\vspace{0.4cm}
-
 \section*{Questão 19: Player de Música em Modo Repetir (Conceito)}
 Em um player de música, o modo "Repetir Tudo" faz com que, após a última música terminar, a primeira comece a tocar novamente de forma automática. Uma \textbf{Lista Circular Simplesmente Encadeada} é a estrutura ideal para esse comportamento, pois o ponteiro \texttt{proximo} do último nó não é \texttt{null}, mas sim aponta de volta para o primeiro nó. Uma otimização comum (seguindo Goodrich \& Tamassia) é manter apenas o ponteiro para o \textbf{último nó} (\texttt{tail}), pois \texttt{tail.proximo} nos dá acesso direto à cabeça da lista.
 
@@ -675,7 +627,7 @@ Em um player de música, o modo "Repetir Tudo" faz com que, após a última mús
 
 \textbf{Pergunta Reflexiva:} Em uma lista encadeada simples tradicional, a condição de parada de um laço \texttt{while} é \texttt{atual != null}. Em uma lista circular, essa condição causaria um loop infinito. Explique, detalhadamente, qual lógica você utilizou para garantir que o método \texttt{exibirPlaylist} percorra todos os elementos e pare exatamente após completar uma volta.
 
-\vspace{0.5cm}
+\vspace{0.2cm}
 
 \section*{Questão 20: Gerenciador de Turnos de Jogo de Tabuleiro (Prática)}
 Em jogos de tabuleiro como Banco Imobiliário ou War, os jogadores realizam suas jogadas em rodadas cíclicas. Após o último jogador, o turno volta para o primeiro. Além disso, jogadores podem ser eliminados durante a partida.
@@ -697,7 +649,7 @@ Em jogos de tabuleiro como Banco Imobiliário ou War, os jogadores realizam suas
 
 \textbf{Pergunta Reflexiva:} No gerenciamento de turnos, a operação de "passar a vez" é extremamente frequente. Qual a complexidade de tempo ($O$) dessa operação em uma lista circular? Compare essa eficiência com o uso de um \texttt{ArrayList}, onde remover o jogador do índice 0 e inseri-lo no final a cada turno exigiria deslocar todos os outros elementos.
 
-\vspace{0.5cm}
+\vspace{0.2cm}
 
 \section*{Questão 21: Escalonador Round Robin de Processos (Desafio)}
 Um Sistema Operacional utiliza o algoritmo \textbf{Round Robin} para distribuir o tempo de CPU entre vários processos. Cada processo recebe uma fatia de tempo fixa (Quantum). Se o processo não terminar nesse tempo, ele volta para o fim da fila; se terminar, é removido da lista.
@@ -720,15 +672,6 @@ Um Sistema Operacional utiliza o algoritmo \textbf{Round Robin} para distribuir 
 % ==========================================
 %     TEMA 8: LISTA CIRCULAR DUPLAMENTE ENCADEADA
 % ==========================================
-\newpage
-
-\noindent\rule{\textwidth}{0.8pt}
-\begin{center}
-    \large\textbf{TEMA 8 — LISTA CIRCULAR DUPLA: O ÁPICE DOS PONTEIROS}
-\end{center}
-\noindent\rule{\textwidth}{0.8pt}
-\vspace{0.4cm}
-
 \section*{Questão 22: Carrossel de Imagens de um Site (Conceito)}
 Websites de e-commerce e portfólios utilizam carrosséis de imagens onde o usuário pode clicar em "Próximo" ou "Anterior" indefinidamente. Em uma \textbf{Lista Circular Duplamente Encadeada}, o primeiro nó (\texttt{head}) está conectado ao último (\texttt{tail}) em ambos os sentidos: \texttt{head.anterior} aponta para o \texttt{tail} e \texttt{tail.proximo} aponta para o \texttt{head}. Isso permite uma rotação infinita para qualquer direção sem encontrar o valor \texttt{null}.
 
@@ -747,7 +690,7 @@ Websites de e-commerce e portfólios utilizam carrosséis de imagens onde o usu�
 
 \textbf{Pergunta Reflexiva:} Quando uma lista circular dupla possui apenas um único elemento, para onde apontam seus ponteiros \texttt{proximo} e \texttt{anterior}? Como essa configuração "reflexiva" evita que o sistema tente acessar uma referência nula?
 
-\vspace{0.5cm}
+\vspace{0.2cm}
 
 \section*{Questão 23: Player de Música Premium com Loop Infinito (Prática)}
 Diferente de um player básico, a versão Premium permite que, ao clicar em "Anterior" estando na primeira música, o player salte imediatamente para a última música da playlist, mantendo o fluxo sonoro sem interrupções.
@@ -767,7 +710,7 @@ Diferente de um player básico, a versão Premium permite que, ao clicar em "Ant
 
 \textbf{Pergunta Reflexiva:} Na implementação da operação \texttt{anterior()} em uma lista circular dupla, o custo computacional é $O(1)$. Como seria a complexidade dessa mesma operação se estivéssemos usando uma \textbf{Lista Circular Simples} (onde não há o ponteiro \texttt{anterior})? Por que a bidirecionalidade é essencial para sistemas de navegação fluida?
 
-\vspace{0.5cm}
+\vspace{0.2cm}
 
 \section*{Questão 24: Seletor de Heróis em Jogo de Luta (Desafio)}
 Em jogos de luta, o seletor de personagens permite navegar entre heróis para a esquerda e direita. Ao escolher um herói (por exemplo, em um modo onde personagens não podem ser repetidos), ele deve ser \textbf{removido} da lista de seleção. A remoção em uma lista circular dupla é a operação mais complexa, pois exige religar as pontas caso o herói removido seja o único, o primeiro ou o último da sequência.
@@ -788,6 +731,6 @@ Em jogos de luta, o seletor de personagens permite navegar entre heróis para a 
     \item Na classe \texttt{Main}, adicione 4 heróis. Simule a remoção do herói da cabeça, de um herói no meio e, por fim, remova todos até que a lista fique vazia. Exiba o estado da lista após cada remoção.
 \end{itemize}
 
-\textbf{Pergunta Reflexiva:} A remoção do \textbf{último elemento restante} em uma lista circular dupla exige um cuidado especial: ao final da operação, o ponteiro \texttt{head} deve ser explicitamente definido como \texttt{null}. O que aconteceria se você tentasse aplicar a lógica padrão de remoção (\texttt{anterior.proximo = proximo}) em uma lista com apenas um nó? Descreva o risco de manter referências obsoletas ("dangling pointers") nesse cenário.
+\textbf{Pergunta Reflexiva:} A remoção do \textbf{último elemento} exige que \texttt{head} seja \texttt{null}. O que ocorre se aplicar a lógica padrão (\texttt{ant.prox = prox}) em uma lista de um só nó? Discorra sobre o risco de \textit{dangling pointers}.
 
 \end{document}
